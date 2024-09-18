@@ -11,33 +11,33 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4"> <!-- Giới hạn độ rộng của form -->
             <h3>Edit Route</h3>
-            <form th:action="@{/admin/route/edit/{id}(id=${route.id})}" th:object="${route}" method="POST">
+            <form th:action="@{/admin/route/edit/{id}(id=${route.id})}" method="POST">
                 <div class="mb-3">
                     <label for="id" class="form-label">Route ID</label>
-                    <input type="number" class="form-control" id="id" name="id" th:field="*{id}" required>
+                    <input type="number" class="form-control" id="id" name="id" th:value="${route.id}" required>
                 </div>
                 <div class="mb-3">
                     <label for="routeName" class="form-label">Route Name</label>
-                    <input type="text" class="form-control" id="routeName" name="name" th:field="*{name}" required>
+                    <input type="text" class="form-control" id="routeName" name="name" th:value="${route.name}" required>
                 </div>
                 <div class="mb-3">
                     <label for="firstTrip" class="form-label">First Trip</label>
-                    <input type="time" class="form-control" id="firstTrip" name="firstTrip" th:field="*{firstTrip}" >
+                    <input type="time" class="form-control" id="firstTrip" name="firstTrip" th:value="${route.firstTrip}">
                 </div>
                 <div class="mb-3">
                     <label for="lastTrip" class="form-label">Last Trip</label>
-                    <input type="time" class="form-control" id="lastTrip" name="lastTrip" th:field="*{lastTrip}" >
+                    <input type="time" class="form-control" id="lastTrip" name="lastTrip" th:value="${route.lastTrip}">
                 </div>
                 <div class="mb-3">
                     <label for="fare" class="form-label">Fare</label>
-                    <input type="number" step="0.01" class="form-control" id="fare" name="fare" th:field="*{fare}" >
+                    <input type="number" step="0.01" class="form-control" id="fare" name="fare" th:value="${route.fare}">
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="active" name="active" th:field="*{active}" >
+                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${route.active}">
                     <label for="active" class="form-check-label">Active</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a th:href="@{/admin/route/list}" class="btn btn-secondary">Cancel</a>
+                <a th:href="@{/admin/route}" class="btn btn-secondary">Cancel</a>
             </form>
         </div>
     </div>
