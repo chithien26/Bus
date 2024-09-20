@@ -1,21 +1,12 @@
-package com.lct.bus.models;
+package com.lct.bus.dto;
 
-import jakarta.persistence.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
+import jakarta.persistence.Column;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-
-@Entity
-@Table(name = "user")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDTO {
     private int id;
-    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name")
     private String lastName;
     private String username;
     private String password;
@@ -23,12 +14,8 @@ public class User {
     private String email;
     private String avatar;
     private String role;
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-    private boolean active;
+    private Boolean active;
 
-    public User() {
-    }
 
     public int getId() {
         return id;
@@ -102,19 +89,11 @@ public class User {
         this.role = role;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public boolean isActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
     }
 }

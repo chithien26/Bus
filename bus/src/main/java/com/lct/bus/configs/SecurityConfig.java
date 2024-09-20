@@ -1,6 +1,6 @@
 package com.lct.bus.configs;
 
-import com.lct.bus.service.UserService;
+//import com.lct.bus.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,8 +49,8 @@ public class SecurityConfig {
 //                .passwordEncoder(passwordEncoder());
 //    }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserService();
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService() {
+//        return new UserService();
+//    }
 }
