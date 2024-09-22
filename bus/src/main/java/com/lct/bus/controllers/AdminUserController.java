@@ -16,27 +16,32 @@ public class AdminUserController {
     @Autowired
     private UserService userService;
 
+    public enum Role {
+        USER,
+        ADMIN,
+    }
+
     @GetMapping("")
     public String listUsers(Model model, @RequestParam(value = "username", required = false) String username) {
-        model.addAttribute("user", new User());
         if(username == null || username.isEmpty()){
-            model.addAttribute("user", userService.getAllUsers());
+            model.addAttribute("users", userService.getAllUsers());
         }
         else{
-            model.addAttribute("user", userService.getAllUserByUsername(username));
+            model.addAttribute("users", userService.getAllUserByUsername(username));
         }
         return "user/userManage";
     }
 
     @GetMapping("/add")
     public String createUser(Model model) {
-        model.addAttribute(new User());
+        model.addAttribute("user", new UserDTO());
+        model.addAttribute("roles", Role.values());
         return "user/createUser";
     }
 
     @PostMapping("/add")
-    public String createUser(@ModelAttribute User user) {
-        userService.createUser(user);
+    public String createUser(@ModelAttribute UserDTO userDTO) {
+        userService.createUser(userDTO);
         return "redirect:/admin/user";
     }
 
@@ -44,11 +49,12 @@ public class AdminUserController {
     public String showEditForm(@PathVariable("id") int id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
+        model.addAttribute("roles", Role.values());
         return "user/userEdit";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateUser(@PathVariable("id") int id, @ModelAttribute(name = "user") UserDTO user) {
+    public String updateUser(@PathVariable("id") int id, @ModelAttribute(name = "user") User user) {
 //        route.setId(id);
         userService.updateUser(user);
         return "redirect:/admin/user";

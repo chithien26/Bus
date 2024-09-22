@@ -30,8 +30,8 @@ public class AdminRouteController {
 
 
     @PostMapping("/add")
-    public String createRoute(@ModelAttribute Route route) {
-        routeService.createRoute(route);
+    public String createRoute(@ModelAttribute RouteDTO routeDTO) {
+        routeService.createRoute(routeDTO);
         return "redirect:/admin/route";
     }
 
@@ -43,7 +43,7 @@ public class AdminRouteController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateroute(@PathVariable("id") int id, @ModelAttribute(name = "route") RouteDTO route) {
+    public String updateroute(@PathVariable("id") int id, @ModelAttribute(name = "route") Route route) {
 //        route.setId(id);
         routeService.updateRoute(route);
         return "redirect:/admin/route";

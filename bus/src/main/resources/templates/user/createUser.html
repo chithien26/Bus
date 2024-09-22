@@ -24,10 +24,10 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="text" class="form-control" id="password" name="password" required>
                 </div>
-                <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm password</label>
-                    <input type="text" class="form-control" id="confirm_password" name="confirm_password" required>
-                </div>
+<!--                <div class="mb-3">-->
+<!--                    <label for="confirm_password" class="form-label">Confirm password</label>-->
+<!--                    <input type="text" class="form-control" id="confirm_password" name="confirm_password" required>-->
+<!--                </div>-->
                 <div class="mb-3">
                     <label for="firstName" class="form-label">FirstName</label>
                     <input type="text" class="form-control" id="firstName" name="firstName" required>
@@ -38,15 +38,23 @@
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="text" step="0.01" class="form-control" id="email" name="email" email>
+                    <input type="text" step="0.01" class="form-control" id="email" name="email" required>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="form-label">Phone</label>
                     <input type="text" step="0.01" class="form-control" id="phone" name="phone" >
                 </div>
                 <div class="mb-3">
-                    <label for="role" class="form-label">role</label>
-                    <input type="text" step="0.01" class="form-control" id="role" name="role" >
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role">
+                            <option th:each="role : ${roles}"
+                                    th:value="${role}"
+                                    th:text="${role}"
+                                    th:selected="${user.role} == ${role}">
+                            </option>
+                        </select>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary float-end w-100">Create user</button>
             </form>

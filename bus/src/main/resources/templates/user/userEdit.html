@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Route</title>
+    <title>Edit User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/headerStyle.css}">
 
@@ -13,35 +13,52 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4"> <!-- Giới hạn độ rộng của form -->
-            <h3>Edit Route</h3>
-            <form th:action="@{/admin/route/edit/{id}(id=${route.id})}" method="POST">
+        <div class="col-md-6 col-lg-4">
+            <h3>Edit User</h3>
+            <form th:action="@{/admin/user/edit/{id}(id=${user.id})}" method="POST">
                 <div class="mb-3">
-                    <label for="id" class="form-label">Route ID</label>
-                    <input type="number" class="form-control" id="id" name="id" th:value="${route.id}" required>
+                    <label for="id" class="form-label">ID</label>
+                    <input type="number" class="form-control" id="id" name="id" th:value="${user.id}" required readonly>
                 </div>
                 <div class="mb-3">
-                    <label for="routeName" class="form-label">Route Name</label>
-                    <input type="text" class="form-control" id="routeName" name="name" th:value="${route.name}" required>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="firstTrip" class="form-label">First Trip</label>
-                    <input type="time" class="form-control" id="firstTrip" name="firstTrip" th:value="${route.firstTrip}">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="text" class="form-control" id="password" name="password" th:value="${user.password}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="lastTrip" class="form-label">Last Trip</label>
-                    <input type="time" class="form-control" id="lastTrip" name="lastTrip" th:value="${route.lastTrip}">
+                    <label for="firstName" class="form-label">FirstName</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" th:value="${user.firstName}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="fare" class="form-label">Fare</label>
-                    <input type="number" step="0.01" class="form-control" id="fare" name="fare" th:value="${route.fare}">
+                    <label for="lastName" class="form-label">Last Trip</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="text" step="0.01" class="form-control" id="email" name="email" th:value="${user.email}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phone" class="form-label">Phone</label>
+                    <input type="text" step="0.01" class="form-control" id="phone" name="phone" th:value="${user.phone}">
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role">
+                        <option th:each="role : ${roles}"
+                                th:value="${role}"
+                                th:text="${role}"
+                                th:selected="${user.role} == ${user.role}">
+                        </option>
+                    </select>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${route.active}">
+                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${user.active}">
                     <label for="active" class="form-check-label">Active</label>
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a th:href="@{/admin/route}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary float-end w-100">Update user</button>
             </form>
         </div>
     </div>

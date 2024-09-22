@@ -33,33 +33,33 @@ public class RouteService {
         routeRepository.save(route);
     }
 
-    public void createRoute(Route route) {
-        Boolean existsRoute = routeRepository.existsById(route.getId());
+    public void createRoute(RouteDTO routeDTO) {
+        Boolean existsRoute = routeRepository.existsById(routeDTO.getId());
         if(existsRoute){
             new RuntimeException("Route đã tồn tại");
         }
 
         Route r = new Route();
 
-        r.setId(route.getId());
-        r.setName(route.getName());
-        r.setFirstTrip(route.getFirstTrip());
-        r.setLastTrip(route.getLastTrip());
-        r.setFare(route.getFare());
+        r.setId(routeDTO.getId());
+        r.setName(routeDTO.getName());
+        r.setFirstTrip(routeDTO.getFirstTrip());
+        r.setLastTrip(routeDTO.getLastTrip());
+        r.setFare(routeDTO.getFare());
         r.setCreatedDate(LocalDateTime.now());
         r.setActive(true);
         routeRepository.save(r);
     }
 
-    public void updateRoute(RouteDTO routeDTO) {
-        Route routeUpdate = routeRepository.findById(routeDTO.getId())
+    public void updateRoute(Route route) {
+        Route routeUpdate = routeRepository.findById(route.getId())
                 .orElseThrow(() -> new RuntimeException("Route not found"));
 
-        routeUpdate.setName(routeDTO.getName());
-        routeUpdate.setFirstTrip(routeDTO.getFirstTrip());
-        routeUpdate.setLastTrip(routeDTO.getLastTrip());
-        routeUpdate.setFare(routeDTO.getFare());
-        routeUpdate.setActive(routeDTO.getActive());
+        routeUpdate.setName(route.getName());
+        routeUpdate.setFirstTrip(route.getFirstTrip());
+        routeUpdate.setLastTrip(route.getLastTrip());
+        routeUpdate.setFare(route.getFare());
+        routeUpdate.setActive(route.getActive());
 
         routeRepository.save(routeUpdate);
     }

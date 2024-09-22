@@ -60,40 +60,40 @@ public class UserService implements UserDetailsService {
 
 
 
-    public void updateUser(UserDTO userDTO) {
-        User userUpdate = userRepository.findById(userDTO.getId())
+    public void updateUser(User user) {
+        User userUpdate = userRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("Route not found"));
-
-        userUpdate.setUsername(userDTO.getUsername());
-        userUpdate.setPassword(userDTO.getPassword());
-        userUpdate.setFirstName(userDTO.getFirstName());
-        userUpdate.setLastName(userDTO.getLastName());
-        userUpdate.setPhone(userDTO.getPhone());
-        userUpdate.setEmail(userDTO.getEmail());
-        userUpdate.setRole(userDTO.getRole());
-        userUpdate.setAvatar(userDTO.getAvatar());
-        userUpdate.setActive(userDTO.getActive());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        userUpdate.setUsername(user.getUsername());
+        userUpdate.setPassword(encodedPassword);
+        userUpdate.setFirstName(user.getFirstName());
+        userUpdate.setLastName(user.getLastName());
+        userUpdate.setPhone(user.getPhone());
+        userUpdate.setEmail(user.getEmail());
+        userUpdate.setRole(user.getRole());
+        userUpdate.setAvatar(user.getAvatar());
+        userUpdate.setActive(user.getActive());
         userRepository.save(userUpdate);
     }
-    public void createUser(User user) {
-        Boolean existsRoute = userRepository.existsById(user.getId());
+    public void createUser(UserDTO userDTO) {
+        Boolean existsRoute = userRepository.existsById(userDTO.getId());
         if(existsRoute){
             new RuntimeException("User đã tồn tại");
         }
         else {
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
             User u = new User();
-            u.setUsername(user.getUsername());
+            u.setUsername(userDTO.getUsername());
             u.setPassword(encodedPassword);
-            u.setFirstName(user.getFirstName());
-            u.setLastName(user.getLastName());
-            u.setPhone(user.getPhone());
-            u.setEmail(user.getEmail());
-            if (user.getRole() == null || user.getRole().isEmpty())
+            u.setFirstName(userDTO.getFirstName());
+            u.setLastName(userDTO.getLastName());
+            u.setPhone(userDTO.getPhone());
+            u.setEmail(userDTO.getEmail());
+            if (userDTO.getRole() == null || userDTO.getRole().isEmpty())
                 u.setRole("USER");
             else
-                u.setRole(user.getRole());
-            u.setAvatar(user.getAvatar());
+                u.setRole(userDTO.getRole());
+            u.setAvatar(userDTO.getAvatar());
             u.setCreatedDate(LocalDateTime.now());
             u.setActive(true);
             userRepository.save(u);

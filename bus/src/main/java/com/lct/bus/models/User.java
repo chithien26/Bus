@@ -110,7 +110,7 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public boolean isActive() {
+    public boolean getActive() {
         return active;
     }
 
