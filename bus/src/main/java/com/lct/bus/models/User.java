@@ -1,11 +1,10 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
-import org.springframework.boot.context.properties.bind.DefaultValue;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -23,11 +22,28 @@ public class User {
     private String email;
     private String avatar;
     private String role;
+
     @Column(name = "created_date")
     private LocalDateTime createdDate;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Favourite> favourites = new HashSet<>();
+
     private boolean active;
 
     public User() {
+    }
+
+    public Set<Favourite> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(Set<Favourite> favourites) {
+        this.favourites = favourites;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public int getId() {

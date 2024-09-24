@@ -6,7 +6,27 @@
     <title>Create user</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/headerStyle.css}">
+    <style>
+        .container {
+            margin-top: 50px;
+        }
 
+        .card {
+            border: 1px solid #007bff; /* Màu viền */
+            border-radius: 10px; /* Bo tròn góc */
+            padding: 20px; /* Khoảng cách bên trong */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+        }
+
+        .btn-primary {
+            background-color: #007bff; /* Màu nền */
+            border: none; /* Bỏ viền */
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3; /* Màu nền khi hover */
+        }
+    </style>
 </head>
 <body>
 <div th:replace="layout/header :: header"></div>
@@ -14,55 +34,58 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <h3>Add New User</h3>
-            <form th:action="@{/admin/user/add}" method="POST">
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+            <div class="card">
+                <h3 class="card-header">Add New User</h3>
+                <div class="card-body">
+                    <form th:action="@{/admin/user/add}" th:object="${user}" method="POST">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" th:field="*{username}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" th:field="*{password}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirm_password" class="form-label">confirm_password</label>
+                            <input type="text" class="form-control" id="confirm_password" name="confirm_password" th:field="*{confirm_password}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">FirstName</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="email" name="email" th:field="*{email}" required>
+                            <div th:if="${#fields.hasErrors('email')}" class="alert alert-danger">
+                                <div th:each="err : ${#fields.errors('email')}" th:text="${err}"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" th:field="*{phone}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role" th:field="*{role}">
+                                <option th:each="role : ${roles}"
+                                        th:value="${role}"
+                                        th:text="${role}"
+                                        th:selected="${user.role} == ${role}">
+                                </option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-end w-100">Create user</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" required>
-                </div>
-<!--                <div class="mb-3">-->
-<!--                    <label for="confirm_password" class="form-label">Confirm password</label>-->
-<!--                    <input type="text" class="form-control" id="confirm_password" name="confirm_password" required>-->
-<!--                </div>-->
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">FirstName</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Trip</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" step="0.01" class="form-control" id="email" name="email" required>
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" step="0.01" class="form-control" id="phone" name="phone" >
-                </div>
-                <div class="mb-3">
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role" name="role">
-                            <option th:each="role : ${roles}"
-                                    th:value="${role}"
-                                    th:text="${role}"
-                                    th:selected="${user.role} == ${role}">
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary float-end w-100">Create user</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
-
-<!-- Bootstrap JS và dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

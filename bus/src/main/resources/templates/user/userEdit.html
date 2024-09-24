@@ -14,52 +14,58 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4">
-            <h3>Edit User</h3>
-            <form th:action="@{/admin/user/edit/{id}(id=${user.id})}" method="POST">
-                <div class="mb-3">
-                    <label for="id" class="form-label">ID</label>
-                    <input type="number" class="form-control" id="id" name="id" th:value="${user.id}" required readonly>
+            <div class="card">
+                <h3 class="card-header">Edit User</h3>
+                <div class="card-body">
+                    <form th:action="@{/admin/user/edit/{id}(id=${user.id})}" method="POST">
+                        <div class="mb-3">
+                            <label for="id" class="form-label">ID</label>
+                            <input type="number" class="form-control" id="id" name="id" th:value="${user.id}" required readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" th:value="${user.password}" required>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="firstName" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${user.firstName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="lastName" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" th:value="${user.email}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" class="form-control" id="phone" name="phone" th:value="${user.phone}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="role" class="form-label">Role</label>
+                            <select class="form-select" id="role" name="role">
+                                <option th:each="role : ${roles}"
+                                        th:value="${role}"
+                                        th:text="${role}"
+                                        th:selected="${user.role} == ${role}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${user.active}">
+                            <label class="form-check-label" for="active">Active</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary float-end w-100">Update User</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" th:value="${user.username}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="text" class="form-control" id="password" name="password" th:value="${user.password}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="firstName" class="form-label">FirstName</label>
-                    <input type="text" class="form-control" id="firstName" name="firstName" th:value="${user.firstName}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="lastName" class="form-label">Last Trip</label>
-                    <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" step="0.01" class="form-control" id="email" name="email" th:value="${user.email}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" step="0.01" class="form-control" id="phone" name="phone" th:value="${user.phone}">
-                </div>
-                <div class="mb-3">
-                    <label for="role" class="form-label">Role</label>
-                    <select class="form-select" id="role" name="role">
-                        <option th:each="role : ${roles}"
-                                th:value="${role}"
-                                th:text="${role}"
-                                th:selected="${user.role} == ${user.role}">
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${user.active}">
-                    <label for="active" class="form-check-label">Active</label>
-                </div>
-                <button type="submit" class="btn btn-primary float-end w-100">Update user</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>

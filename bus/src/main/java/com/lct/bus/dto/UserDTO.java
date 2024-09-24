@@ -1,21 +1,29 @@
 package com.lct.bus.dto;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 
 import java.time.LocalDate;
-
 public class UserDTO {
     private int id;
     private String firstName;
     private String lastName;
     private String username;
     private String password;
+    private String confirm_password;
     private String phone;
+
+    @Email(message = "Email shold be valid")
     private String email;
+
     private String avatar;
     private String role;
     private Boolean active;
 
+
+    public UserDTO() {
+    }
 
     public int getId() {
         return id;
@@ -57,6 +65,14 @@ public class UserDTO {
         this.password = password;
     }
 
+    public String getConfirm_password() {
+        return confirm_password;
+    }
+
+    public void setConfirm_password(String confirm_password) {
+        this.confirm_password = confirm_password;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -65,11 +81,11 @@ public class UserDTO {
         this.phone = phone;
     }
 
-    public String getEmail() {
+    public @Email(message = "Email shold be valid") String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(@Email(message = "Email shold be valid") String email) {
         this.email = email;
     }
 

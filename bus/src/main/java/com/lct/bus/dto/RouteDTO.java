@@ -1,5 +1,8 @@
 package com.lct.bus.dto;
 
+
+import lombok.Data;
+
 import java.time.LocalTime;
 
 public class RouteDTO {
@@ -10,12 +13,8 @@ public class RouteDTO {
     private Double fare;
     private Boolean active;
 
-    public Boolean getActive() {
-        return active;
-    }
 
-    public void setActive(Boolean active) {
-        this.active = active;
+    public RouteDTO() {
     }
 
     public Integer getId() {
@@ -56,5 +55,13 @@ public class RouteDTO {
 
     public void setFare(Double fare) {
         this.fare = fare;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

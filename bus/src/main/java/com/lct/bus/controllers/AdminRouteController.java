@@ -17,8 +17,8 @@ public class AdminRouteController {
     private RouteService routeService;
 
     @GetMapping("")
-    public String listroutes(Model model, @RequestParam(value = "kw", required = false) String kw) {
-        model.addAttribute("route", new Route());
+    public String listRoutes(Model model, @RequestParam(value = "kw", required = false) String kw) {
+        model.addAttribute("route", new RouteDTO());
         if(kw == null || kw.isEmpty()){
             model.addAttribute("routes", routeService.getAllRoutes());
         }
@@ -44,7 +44,6 @@ public class AdminRouteController {
 
     @PostMapping("/edit/{id}")
     public String updateroute(@PathVariable("id") int id, @ModelAttribute(name = "route") Route route) {
-//        route.setId(id);
         routeService.updateRoute(route);
         return "redirect:/admin/route";
     }

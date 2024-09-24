@@ -61,8 +61,7 @@ public class UserService implements UserDetailsService {
 
 
     public void updateUser(User user) {
-        User userUpdate = userRepository.findById(user.getId())
-                .orElseThrow(() -> new RuntimeException("Route not found"));
+        User userUpdate = userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("Route not found"));
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         userUpdate.setUsername(user.getUsername());
         userUpdate.setPassword(encodedPassword);
@@ -79,6 +78,8 @@ public class UserService implements UserDetailsService {
         Boolean existsRoute = userRepository.existsById(userDTO.getId());
         if(existsRoute){
             new RuntimeException("User đã tồn tại");
+        } else if (userDTO.getPassword() != userDTO.getConfirm_password()){
+            new RuntimeException("password and confirm must be same");
         }
         else {
             String encodedPassword = passwordEncoder.encode(userDTO.getPassword());

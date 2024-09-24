@@ -1,12 +1,15 @@
 package com.lct.bus.controllers;
 
 import com.lct.bus.dto.RouteDTO;
+import com.lct.bus.dto.StationDTO;
 import com.lct.bus.dto.UserDTO;
 import com.lct.bus.models.User;
 import com.lct.bus.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -40,7 +43,11 @@ public class AdminUserController {
     }
 
     @PostMapping("/add")
-    public String createUser(@ModelAttribute UserDTO userDTO) {
+    public String createUser(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult result, Model model) {
+        if(result.hasErrors()){
+            model.addAttribute("roles", Role.values());
+            return "user/createUser";
+        }
         userService.createUser(userDTO);
         return "redirect:/admin/user";
     }
@@ -55,7 +62,7 @@ public class AdminUserController {
 
     @PostMapping("/edit/{id}")
     public String updateUser(@PathVariable("id") int id, @ModelAttribute(name = "user") User user) {
-//        route.setId(id);
+//        user.setId(id);
         userService.updateUser(user);
         return "redirect:/admin/user";
     }
