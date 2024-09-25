@@ -1,34 +1,46 @@
-package com.lct.bus.models;
+package com.lct.bus.dto;
 
-import jakarta.persistence.*;
+
+import com.lct.bus.models.Route;
+import com.lct.bus.models.Schedule;
+import com.lct.bus.models.Vehicle;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "bus_trip")
-public class BusTrip {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class BusTripDTO {
     private int id;
     private int tripNumber;
     private LocalTime departureTime;
     private LocalDateTime createdDate;
     private Boolean active;
 
-    @ManyToOne
-    @JoinColumn(name = "route_id")
     private Route route;
-
-    @ManyToOne
-    @JoinColumn(name = "vehicle_id")
+    private Schedule schedule;
     private Vehicle vehicle;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    public Route getRoute() {
+        return route;
+    }
 
-    public BusTrip() {
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(Schedule schedule) {
+        this.schedule = schedule;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public int getId() {
@@ -69,29 +81,5 @@ public class BusTrip {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
     }
 }

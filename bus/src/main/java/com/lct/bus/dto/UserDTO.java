@@ -2,7 +2,6 @@ package com.lct.bus.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
-import lombok.Data;
 
 import java.time.LocalDate;
 public class UserDTO {

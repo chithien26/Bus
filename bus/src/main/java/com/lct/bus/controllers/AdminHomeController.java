@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminHomeController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model){
         return "trang chu";
     }

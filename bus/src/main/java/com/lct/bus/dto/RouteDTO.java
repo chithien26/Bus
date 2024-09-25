@@ -1,7 +1,6 @@
 package com.lct.bus.dto;
 
 
-import lombok.Data;
 
 import java.time.LocalTime;
 

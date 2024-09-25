@@ -3,13 +3,13 @@ package com.lct.bus.dto;
 import com.lct.bus.models.Route;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToMany;
-import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
 public class StationDTO {
+
     private int id ;
     private String name;
     private String address;

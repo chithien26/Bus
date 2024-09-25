@@ -28,7 +28,7 @@ public class AdminStationController {
 
 
     @PostMapping("/add")
-    public String createStation(@ModelAttribute StationDTO stationDTO) {
+    public String createStation(@ModelAttribute(name = "station") StationDTO stationDTO) {
         stationService.createStation(stationDTO);
         return "redirect:/admin/station";
     }
@@ -42,6 +42,7 @@ public class AdminStationController {
 
     @PostMapping("/edit/{id}")
     public String updateStation(@PathVariable("id") int id, @ModelAttribute(name = "station") Station station) {
+        station.setId(id);
         stationService.updateStation(station);
         return "redirect:/admin/station";
     }

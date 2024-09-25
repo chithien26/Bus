@@ -3,7 +3,6 @@ package com.lct.bus.controllers;
 import com.lct.bus.dto.RouteDTO;
 import com.lct.bus.models.Route;
 import com.lct.bus.service.RouteService;
-import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

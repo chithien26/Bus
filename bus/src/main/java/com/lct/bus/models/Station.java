@@ -1,6 +1,9 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
+import org.springframework.core.serializer.Serializer;
+
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,8 +24,8 @@ public class Station {
     @OneToMany(mappedBy = "station")
     private Set<RouteStation> routeStationSet = new HashSet<>();
 
-    @OneToOne(mappedBy = "station")
-    private Schedule schedule;
+    @OneToMany(mappedBy = "station")
+    private Set<Schedule> schedules = new HashSet<>();
 
     public Station() {
     }
@@ -35,12 +38,12 @@ public class Station {
         this.routeStationSet = routeStationSet;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public Set<Schedule> getSchedules() {
+        return schedules;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
     }
 
     public int getId() {

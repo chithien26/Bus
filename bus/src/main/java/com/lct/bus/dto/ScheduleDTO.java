@@ -1,28 +1,24 @@
-package com.lct.bus.models;
+package com.lct.bus.dto;
 
-import jakarta.persistence.*;
+import com.lct.bus.models.Station;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "schedule")
-public class Schedule {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ScheduleDTO {
     private int id;
     private LocalTime arrivalTime;
+    private Station station;
     private LocalDateTime createdDate;
     private Boolean active;
 
-    @OneToOne(mappedBy = "schedule")
-    private BusTrip busTrip;
 
-    @ManyToOne
-    @JoinColumn(name = "station_id")
-    private Station station;
+    public Station getStation() {
+        return station;
+    }
 
-    public Schedule() {
+    public void setStation(Station station) {
+        this.station = station;
     }
 
     public int getId() {
@@ -55,21 +51,5 @@ public class Schedule {
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public BusTrip getBusTrip() {
-        return busTrip;
-    }
-
-    public void setBusTrip(BusTrip busTrip) {
-        this.busTrip = busTrip;
-    }
-
-    public Station getStation() {
-        return station;
-    }
-
-    public void setStation(Station station) {
-        this.station = station;
     }
 }
