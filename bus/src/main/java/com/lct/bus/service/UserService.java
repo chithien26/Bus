@@ -6,6 +6,7 @@ import com.lct.bus.models.Route;
 import com.lct.bus.models.User;
 import com.lct.bus.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,11 +15,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -33,7 +35,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAllUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.getAllUserByUsername(username);
     }
 
     public void saveUser(User user) {
@@ -43,21 +45,6 @@ public class UserService implements UserDetailsService {
     public void deleteUser(int id) {
         userRepository.deleteById(id);
     }
-
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        User user = userRepository.getByUsername(username);
-        User user = userRepository.getByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                new ArrayList<>()
-        );
-    }
-
 
 
     public void updateUser(User user) {
@@ -75,30 +62,22 @@ public class UserService implements UserDetailsService {
         userRepository.save(userUpdate);
     }
     public void createUser(UserDTO userDTO) {
-        Boolean existsRoute = userRepository.existsById(userDTO.getId());
-        if(existsRoute){
-            new RuntimeException("User đã tồn tại");
-        } else if (userDTO.getPassword() != userDTO.getConfirm_password()){
-            new RuntimeException("password and confirm must be same");
-        }
-        else {
-            String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
-            User u = new User();
-            u.setUsername(userDTO.getUsername());
-            u.setPassword(encodedPassword);
-            u.setFirstName(userDTO.getFirstName());
-            u.setLastName(userDTO.getLastName());
-            u.setPhone(userDTO.getPhone());
-            u.setEmail(userDTO.getEmail());
-            if (userDTO.getRole() == null || userDTO.getRole().isEmpty())
-                u.setRole("USER");
-            else
-                u.setRole(userDTO.getRole());
-            u.setAvatar(userDTO.getAvatar());
-            u.setCreatedDate(LocalDateTime.now());
-            u.setActive(true);
-            userRepository.save(u);
+        String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
+        User u = new User();
+        u.setUsername(userDTO.getUsername());
+        u.setPassword(encodedPassword);
+        u.setFirstName(userDTO.getFirstName());
+        u.setLastName(userDTO.getLastName());
+        u.setPhone(userDTO.getPhone());
+        u.setEmail(userDTO.getEmail());
+        if (userDTO.getRole() == null || userDTO.getRole().isEmpty())
+            u.setRole("USER");
+        else
+            u.setRole(userDTO.getRole());
+        u.setAvatar(userDTO.getAvatar());
+        u.setCreatedDate(LocalDateTime.now());
+        u.setActive(true);
+        userRepository.save(u);
 
-        }
     }
 }
