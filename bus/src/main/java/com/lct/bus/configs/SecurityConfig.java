@@ -47,16 +47,22 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/login", "/register").permitAll()
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/login")
-                                .defaultSuccessUrl("/home", true)
+                                .defaultSuccessUrl("/admin/route", true)
                                 .permitAll()
                 )
-                .logout(logout ->
-                        logout.permitAll()
+                .logout(logout -> logout
+                        .logoutUrl("/logout") // Định nghĩa URL để logout
+                        .logoutSuccessUrl("/login?logout") // Định nghĩa URL sau khi logout thành công
+                        .invalidateHttpSession(true) // Vô hiệu hóa session hiện tại
+                        .clearAuthentication(true) // Xóa thông tin xác thực
+                        .deleteCookies("JSESSIONID") // Xóa cookie để đảm bảo người dùng đã được logout hoàn toàn
+                        .permitAll() // Cho phép bất kỳ ai có thể sử dụng tính năng này
                 );
         return http.build();
     }

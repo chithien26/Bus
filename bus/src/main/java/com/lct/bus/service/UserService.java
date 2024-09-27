@@ -71,7 +71,7 @@ public class UserService {
         u.setPhone(userDTO.getPhone());
         u.setEmail(userDTO.getEmail());
         if (userDTO.getRole() == null || userDTO.getRole().isEmpty())
-            u.setRole("USER");
+            u.setRole("ROLE_USER");
         else
             u.setRole(userDTO.getRole());
         u.setAvatar(userDTO.getAvatar());
