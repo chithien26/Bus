@@ -13,6 +13,8 @@ import java.util.List;
 @Transactional
 public interface BusTripRepository extends JpaRepository<BusTrip, Integer> {
     @Query("SELECT b FROM BusTrip b WHERE " +
-            "(CAST(b.id AS string) LIKE %:kw%)")
+            "(CAST(b.id AS string) LIKE %:kw%) OR " +
+            "(LOWER(b.route.name) LIKE LOWER(CONCAT('%', :kw, '%')))" )
+//            "(LOWER(b.vehicle.licensePlates) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<BusTrip> findAllWithKw(String kw);
 }

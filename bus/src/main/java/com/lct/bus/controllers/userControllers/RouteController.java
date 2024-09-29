@@ -1,10 +1,9 @@
-package com.lct.bus.controllers;
+package com.lct.bus.controllers.userControllers;
 
 
 import com.lct.bus.models.Route;
 import com.lct.bus.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

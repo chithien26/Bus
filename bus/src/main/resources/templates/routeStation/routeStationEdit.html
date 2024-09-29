@@ -15,10 +15,20 @@
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-4"> <!-- Giới hạn độ rộng của form -->
             <h3>Edit schedule</h3>
-            <form th:action="@{/admin/schedule/edit/{id}(id=${schedule.id})}" method="POST">
+            <form th:action="@{/admin/route-station/edit/{id}(id=${routeStation.id})}" method="POST">
                 <div class="mb-3">
                     <label for="id" class="form-label">schedule ID</label>
-                    <input type="number" class="form-control" id="id" name="id" th:value="${schedule.id}" required readonly>
+                    <input type="number" class="form-control" id="id" name="id" th:value="${routeStation.id}" required readonly>
+                </div>
+                <div class="mb-2">
+                    <label for="route" class="form-label">Route</label>
+                    <select class="form-select" id="route" name="route.id" required>
+                        <option th:each="route : ${routes}"
+                                th:value="${route.id}"
+                                th:text="${route.name}"
+                                th:selected="${routeStation.route} == ${route}">
+                        </option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="station" class="form-label">Station</label>
@@ -26,26 +36,20 @@
                         <option th:each="station : ${stations}"
                                 th:value="${station.id}"
                                 th:text="${station.name}"
-                                th:selected="${schedule.station} == ${station}">
+                                th:selected="${routeStation.station} == ${station}">
                         </option>
                     </select>
                 </div>
-                <div class="mb-3">
-                    <label for="busTrip" class="form-label">Bus Trip</label>
-                    <select class="form-select" id="busTrip" name="busTrip.id" required>
-                        <option th:each="busTrip : ${busTrips}"
-                                th:value="${busTrip.id}"
-                                th:text="${busTrip.id}"
-                                th:selected="${schedule.busTrip} == ${busTrip}">
-                        </option>
-                    </select>
+                <div class="mb-2">
+                    <label for="order" class="form-label">Order</label>
+                    <input type="number" class="form-control form-control-sm" id="order" name="order" th:value="${routeStation.order}" required>
                 </div>
-                <div class="mb-3">
-                    <label for="arrivalTime" class="form-label">Arrival time</label>
-                    <input type="time" class="form-control form-control-sm" id="arrivalTime" name="arrivalTime" required>
+                <div class="mb-2">
+                    <label for="distToNext" class="form-label">Distance To Next</label>
+                    <input type="number" step="0.001" class="form-control form-control-sm" id="distToNext" name="distToNext" th:value="${routeStation.distToNext}" required>
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${schedule.active}">
+                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${routeStation.active}">
                     <label for="active" class="form-check-label">Active</label>
                 </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>

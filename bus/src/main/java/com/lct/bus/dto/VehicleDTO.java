@@ -1,36 +1,13 @@
-package com.lct.bus.models;
-
-import jakarta.persistence.*;
+package com.lct.bus.dto;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
-@Entity
-@Table(name = "vehicle")
-public class Vehicle {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class VehicleDTO {
     private int id;
-    @Column(name = "license_plates")
     private String licensePlates;
     private int capacity;
     private LocalDateTime createdDate;
     private Boolean active;
-
-    @OneToMany(mappedBy = "vehicle")
-    private Set<BusTrip> busTrips = new HashSet<>();
-
-    public Vehicle() {
-    }
-
-    public Set<BusTrip> getBusTrips() {
-        return busTrips;
-    }
-
-    public void setBusTrips(Set<BusTrip> busTrips) {
-        this.busTrips = busTrips;
-    }
 
     public int getId() {
         return id;

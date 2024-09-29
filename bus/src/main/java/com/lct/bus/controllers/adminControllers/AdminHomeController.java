@@ -1,4 +1,4 @@
-package com.lct.bus.controllers;
+package com.lct.bus.controllers.adminControllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +13,6 @@ public class AdminHomeController {
 
     @GetMapping("")
     public String index(Model model){
-        return "trang chu";
+        return "home";
     }
 }

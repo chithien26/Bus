@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "bus_trip")
@@ -24,9 +26,8 @@ public class BusTrip {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "schedule_id")
-    private Schedule schedule;
+    @OneToMany(mappedBy = "busTrip", cascade = CascadeType.REMOVE)
+    private List<Schedule> schedules = new ArrayList<>();
 
     public BusTrip() {
     }
@@ -87,11 +88,11 @@ public class BusTrip {
         this.vehicle = vehicle;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
+    public List<Schedule> getSchedules() {
+        return schedules;
     }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
+    public void setSchedules(List<Schedule> schedules) {
+        this.schedules = schedules;
     }
 }

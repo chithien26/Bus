@@ -1,4 +1,4 @@
-package com.lct.bus.controllers;
+package com.lct.bus.controllers.adminControllers;
 
 import com.lct.bus.dto.StationDTO;
 import com.lct.bus.models.Station;

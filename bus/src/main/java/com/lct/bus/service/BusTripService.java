@@ -44,7 +44,6 @@ public class BusTripService {
         r.setTripNumber(busTripDTO.getTripNumber());
         r.setDepartureTime(busTripDTO.getDepartureTime());
         r.setRoute(busTripDTO.getRoute());
-        r.setSchedule(busTripDTO.getSchedule());
         r.setVehicle(busTripDTO.getVehicle());
         r.setCreatedDate(LocalDateTime.now());
         r.setActive(true);
@@ -58,7 +57,6 @@ public class BusTripService {
         busTripUpdate.setTripNumber(busTrip.getTripNumber());
         busTripUpdate.setDepartureTime(busTrip.getDepartureTime());
         busTripUpdate.setRoute(busTrip.getRoute());
-        busTripUpdate.setSchedule(busTrip.getSchedule());
         busTripUpdate.setVehicle(busTrip.getVehicle());
         busTripUpdate.setActive(busTrip.getActive());
 

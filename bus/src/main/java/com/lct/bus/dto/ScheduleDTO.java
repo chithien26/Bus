@@ -1,5 +1,6 @@
 package com.lct.bus.dto;
 
+import com.lct.bus.models.BusTrip;
 import com.lct.bus.models.Station;
 
 import java.time.LocalDateTime;
@@ -9,9 +10,17 @@ public class ScheduleDTO {
     private int id;
     private LocalTime arrivalTime;
     private Station station;
+    private BusTrip busTrip;
     private LocalDateTime createdDate;
     private Boolean active;
 
+    public BusTrip getBusTrip() {
+        return busTrip;
+    }
+
+    public void setBusTrip(BusTrip busTrip) {
+        this.busTrip = busTrip;
+    }
 
     public Station getStation() {
         return station;

@@ -15,7 +15,8 @@ public class Schedule {
     private LocalDateTime createdDate;
     private Boolean active;
 
-    @OneToOne(mappedBy = "schedule")
+    @ManyToOne
+    @JoinColumn(name = "bus_trip_id")
     private BusTrip busTrip;
 
     @ManyToOne

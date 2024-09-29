@@ -1,7 +1,8 @@
-package com.lct.bus.controllers;
+package com.lct.bus.controllers.adminControllers;
 
 import com.lct.bus.dto.ScheduleDTO;
 import com.lct.bus.models.Schedule;
+import com.lct.bus.service.BusTripService;
 import com.lct.bus.service.ScheduleService;
 import com.lct.bus.service.StationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,15 @@ public class AdminScheduleController {
     private ScheduleService scheduleService;
 
     @Autowired
+    private BusTripService busTripService;
+
+    @Autowired
     private StationService stationService;
 
     @GetMapping("")
     public String listSchedules(Model model, @RequestParam(value = "kw", required = false) String kw) {
         model.addAttribute("schedule", new ScheduleDTO());
+        model.addAttribute("busTrips", busTripService.getAllBusTrips());
         model.addAttribute("stations", stationService.getAllStation());
         if(kw == null || kw.isEmpty()){
             model.addAttribute("schedules", scheduleService.getAllSchedules());
@@ -41,6 +46,8 @@ public class AdminScheduleController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") int id, Model model) {
         model.addAttribute("stations", stationService.getAllStation());
+        model.addAttribute("busTrips", busTripService.getAllBusTrips());
+
         Schedule schedule = scheduleService.getScheduleById(id);
         model.addAttribute("schedule", schedule);
         return "schedule/scheduleEdit";

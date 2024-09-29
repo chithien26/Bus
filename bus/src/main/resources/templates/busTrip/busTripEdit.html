@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bus Trip</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/headerStyle.css}">
+
+</head>
+<body>
+<div th:replace="~{layout/header :: header}"></div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4"> <!-- Giới hạn độ rộng của form -->
+            <h3>Edit Station</h3>
+            <form th:action="@{/admin/bustrip/edit/{id}(id=${busTrip.id})}" method="POST">
+                <div class="mb-3">
+                    <label for="id" class="form-label">ID</label>
+                    <input type="number" class="form-control" id="id" name="id" th:value="${busTrip.id}" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label for="tripNumber" class="form-label">Trip Number</label>
+                    <input type="number" class="form-control form-control-sm" id="tripNumber" name="tripNumber" required>
+                </div>
+                <div class="mb-3">
+                    <label for="departureTime" class="form-label">Departure Time</label>
+                    <input type="time" class="form-control form-control-sm" id="departureTime" name="departureTime" required>
+                </div>
+                <div class="mb-3">
+                    <label for="route" class="form-label">Route</label>
+                    <select class="form-select" id="route" name="route.id" required>
+                        <option th:each="route : ${routes}"
+                                th:value="${route.id}"
+                                th:text="${route.name}"
+                                th:selected="${busTrip.route} == ${route}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="vehicle" class="form-label">Vehicle</label>
+                    <select class="form-select" id="vehicle" name="vehicle.id" required>
+                        <option th:each="vehicle : ${vehicles}"
+                                th:value="${vehicle.id}"
+                                th:text="${vehicle.id}"
+                                th:selected="${busTrip.vehicle} == ${vehicle}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="active" name="active" th:checked="${busTrip.active}">
+                    <label for="active" class="form-check-label">Active</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a th:href="@{/admin/station}" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS và dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

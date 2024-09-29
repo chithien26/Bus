@@ -47,6 +47,7 @@ public class ScheduleService {
 
         r.setId(scheduleDTO.getId());
         r.setStation(scheduleDTO.getStation());
+        r.setBusTrip(scheduleDTO.getBusTrip());
         r.setArrivalTime(scheduleDTO.getArrivalTime());
         r.setCreatedDate(LocalDateTime.now());
         r.setActive(true);
@@ -59,6 +60,7 @@ public class ScheduleService {
 
         scheduleUpdate.setArrivalTime(schedule.getArrivalTime());
         scheduleUpdate.setStation(schedule.getStation());
+        scheduleUpdate.setBusTrip(schedule.getBusTrip());
         scheduleUpdate.setActive(schedule.getActive());
 
         scheduleRepository.save(scheduleUpdate);

@@ -10,6 +10,7 @@ public class RouteStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "`order`")
     private int order;
     @Column(name = "dist_to_next")
     private Double distToNext;

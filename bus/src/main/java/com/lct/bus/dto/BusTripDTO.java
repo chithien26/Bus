@@ -16,7 +16,6 @@ public class BusTripDTO {
     private Boolean active;
 
     private Route route;
-    private Schedule schedule;
     private Vehicle vehicle;
 
     public Route getRoute() {
@@ -27,13 +26,7 @@ public class BusTripDTO {
         this.route = route;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
-    }
 
-    public void setSchedule(Schedule schedule) {
-        this.schedule = schedule;
-    }
 
     public Vehicle getVehicle() {
         return vehicle;
