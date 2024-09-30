@@ -1,5 +1,6 @@
 package com.lct.bus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class BusTrip {
     @JoinColumn(name = "vehicle_id")
     private Vehicle vehicle;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "busTrip", cascade = CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<>();
 

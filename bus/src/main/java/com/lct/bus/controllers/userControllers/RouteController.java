@@ -9,17 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/route")
 public class RouteController {
 
     @Autowired
     private RouteService routeService;
 
-    @GetMapping("/route/list")
-    public List<Route> getAllRoutes() {
-        return routeService.getAllRoutes();
+    @GetMapping("/list")
+    public List<Route> getAllRoutes(@RequestParam(value = "kw", required = false) String kw) {
+        if (kw == null || kw.trim().isEmpty()) {
+            return routeService.getAllRoutes();
+        }
+        return routeService.getAllRoutesWithKw(kw);
     }
 
-    @GetMapping("/route/{id}")
+    @GetMapping("/{id}")
     public Route routeDetail(@PathVariable(value = "id") int id){
         return routeService.getRouteById(id);
     }

@@ -46,19 +46,18 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/login", "/register").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/login")
+                                .loginPage("/admin/login")
                                 .defaultSuccessUrl("/admin", true)
                                 .permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout") // Định nghĩa URL để logout
-                        .logoutSuccessUrl("/login?logout") // Định nghĩa URL sau khi logout thành công
+                        .logoutSuccessUrl("/admin/login?logout") // Định nghĩa URL sau khi logout thành công
                         .invalidateHttpSession(true) // Vô hiệu hóa session hiện tại
                         .clearAuthentication(true) // Xóa thông tin xác thực
                         .deleteCookies("JSESSIONID") // Xóa cookie để đảm bảo người dùng đã được logout hoàn toàn

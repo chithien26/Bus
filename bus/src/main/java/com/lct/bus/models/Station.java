@@ -1,5 +1,6 @@
 package com.lct.bus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.springframework.core.serializer.Serializer;
 
@@ -21,12 +22,15 @@ public class Station {
     private LocalDateTime createdDate;
     private Boolean active;
 
-    @OneToMany(mappedBy = "station")
+    @JsonIgnore
+    @OneToMany(mappedBy = "station", fetch = FetchType.LAZY)
     private Set<RouteStation> routeStationSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "station")
+    @JsonIgnore
+    @OneToMany(mappedBy = "station", fetch = FetchType.LAZY)
     private Set<Schedule> schedules = new HashSet<>();
 
+    @JsonIgnore
     public Station() {
     }
 

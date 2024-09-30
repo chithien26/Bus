@@ -1,5 +1,6 @@
 package com.lct.bus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -23,12 +24,15 @@ public class Route {
     private LocalDateTime createdDate;
     private Boolean active;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "route")
     private Set<BusTrip> busTrips = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "route")
     private Set<RouteStation> routeStationSet = new HashSet<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "route")
     private Set<Favourite> favourites = new HashSet<>();
 
