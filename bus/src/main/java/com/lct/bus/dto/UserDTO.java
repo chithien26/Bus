@@ -2,8 +2,15 @@ package com.lct.bus.dto;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
+
+
+@Data
 public class UserDTO {
     private int id;
     private String firstName;
@@ -19,10 +26,6 @@ public class UserDTO {
     private String avatar;
     private String role;
     private Boolean active;
-
-
-    public UserDTO() {
-    }
 
     public int getId() {
         return id;

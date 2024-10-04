@@ -14,11 +14,12 @@ public class RouteStationService {
     @Autowired
     private RouteStationRepository routeStationRepository;
 
-    public List<RouteStation> getAllRouteStation(){
+    public List<RouteStation> getAllRouteStation() {
         return routeStationRepository.findAll();
     }
 
-    public List<RouteStation> getAllRouteStationWithKw(String kw){
+
+    public List<RouteStation> getAllRouteStationWithKw(String kw) {
         return routeStationRepository.findAllWithKw(kw);
     }
 
@@ -34,7 +35,7 @@ public class RouteStationService {
 
     public void createRouteStation(RouteStationDTO routeStationDTO) {
         Boolean existsrouteStation = routeStationRepository.existsById(routeStationDTO.getId());
-        if(existsrouteStation){
+        if (existsrouteStation) {
             new RuntimeException("Route-Station đã tồn tại");
         }
 

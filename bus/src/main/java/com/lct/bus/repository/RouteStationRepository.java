@@ -14,6 +14,8 @@ import java.util.List;
 public interface RouteStationRepository extends JpaRepository<RouteStation, Integer> {
     @Query("SELECT rs FROM RouteStation rs WHERE " +
             "(LOWER(rs.route.name) LIKE LOWER(CONCAT('%', :kw, '%'))) OR " +
-            "(LOWER(rs.station.name) LIKE LOWER(CONCAT('%', :kw, '%')))" )
+            "(LOWER(rs.station.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<RouteStation> findAllWithKw(String kw);
+
+
 }

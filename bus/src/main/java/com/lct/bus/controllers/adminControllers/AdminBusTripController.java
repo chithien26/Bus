@@ -29,10 +29,9 @@ public class AdminBusTripController {
         model.addAttribute("busTrip", new BusTripDTO());
         model.addAttribute("routes", routeService.getAllRoutes());
         model.addAttribute("vehicles", vehicleService.getAllVehicle());
-        if(kw == null || kw.isEmpty()){
+        if (kw == null || kw.isEmpty()) {
             model.addAttribute("busTrips", busTripService.getAllBusTrips());
-        }
-        else{
+        } else {
             model.addAttribute("busTrips", busTripService.getAllBusTripsWithKw(kw));
         }
         return "busTrip/busTripManage";

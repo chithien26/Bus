@@ -16,11 +16,11 @@ public class StationService {
     @Autowired
     private StationRepository stationRepository;
 
-    public List<Station> getAllStation(){
+    public List<Station> getAllStation() {
         return stationRepository.findAll();
     }
 
-    public List<Station> getAllStationWithKw(String kw){
+    public List<Station> getAllStationWithKw(String kw) {
         return stationRepository.findAllWithKw(kw);
     }
 
@@ -36,7 +36,7 @@ public class StationService {
 
     public void createStation(StationDTO stationDTO) {
         Boolean existsStation = stationRepository.existsById(stationDTO.getId());
-        if(existsStation){
+        if (existsStation) {
             new RuntimeException("Station đã tồn tại");
         }
 

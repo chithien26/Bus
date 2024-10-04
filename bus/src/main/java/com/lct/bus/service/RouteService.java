@@ -15,11 +15,11 @@ public class RouteService {
     @Autowired
     private RouteRepository routeRepository;
 
-    public List<Route> getAllRoutes(){
+    public List<Route> getAllRoutes() {
         return routeRepository.findAll();
     }
 
-    public List<Route> getAllRoutesWithKw(String kw){
+    public List<Route> getAllRoutesWithKw(String kw) {
         return routeRepository.findAllWithKw(kw);
     }
 
@@ -35,13 +35,14 @@ public class RouteService {
 
     public void createRoute(RouteDTO routeDTO) {
         Boolean existsRoute = routeRepository.existsById(routeDTO.getId());
-        if(existsRoute){
+        if (existsRoute) {
             new RuntimeException("Route đã tồn tại");
         }
 
         Route r = new Route();
 
         r.setId(routeDTO.getId());
+        r.setRouteNumber(routeDTO.getRouteNumber());
         r.setName(routeDTO.getName());
         r.setFirstTrip(routeDTO.getFirstTrip());
         r.setLastTrip(routeDTO.getLastTrip());
@@ -55,6 +56,7 @@ public class RouteService {
         Route routeUpdate = routeRepository.findById(route.getId())
                 .orElseThrow(() -> new RuntimeException("Route not found"));
 
+        routeUpdate.setRouteNumber(route.getRouteNumber());
         routeUpdate.setName(route.getName());
         routeUpdate.setFirstTrip(route.getFirstTrip());
         routeUpdate.setLastTrip(route.getLastTrip());

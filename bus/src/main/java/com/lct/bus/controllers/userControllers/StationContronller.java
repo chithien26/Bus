@@ -18,13 +18,13 @@ public class StationContronller {
     @Autowired
     private StationService stationService;
 
-    @GetMapping("/list")
+    @GetMapping
     public List<Station> getAllStation() {
         return stationService.getAllStation();
     }
 
     @GetMapping("/{id}")
-    public Station stationDetail(@PathVariable(value = "id") int id){
+    public Station stationDetail(@PathVariable(value = "id") int id) {
         return stationService.getStationById(id);
     }
 }

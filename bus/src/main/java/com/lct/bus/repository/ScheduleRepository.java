@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 @Transactional
-public interface ScheduleRepository extends JpaRepository<Schedule,Integer> {
+public interface ScheduleRepository extends JpaRepository<Schedule, Integer> {
     @Query("SELECT s FROM Schedule s WHERE " +
             "(CAST(s.id AS string) LIKE %:kw%) OR " +
             "(LOWER(s.station.name) LIKE LOWER(CONCAT('%', :kw, '%')))")

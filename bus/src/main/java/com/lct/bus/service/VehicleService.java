@@ -14,11 +14,11 @@ public class VehicleService {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    public List<Vehicle> getAllVehicle(){
+    public List<Vehicle> getAllVehicle() {
         return vehicleRepository.findAll();
     }
 
-    public List<Vehicle> getAllVehicleWithKw(String kw){
+    public List<Vehicle> getAllVehicleWithKw(String kw) {
         return vehicleRepository.findAllWithKw(kw);
     }
 
@@ -34,7 +34,7 @@ public class VehicleService {
 
     public void createVehicle(VehicleDTO vehicleDTO) {
         Boolean existsvehicle = vehicleRepository.existsById(vehicleDTO.getId());
-        if(existsvehicle){
+        if (existsvehicle) {
             new RuntimeException("vehicle đã tồn tại");
         }
 

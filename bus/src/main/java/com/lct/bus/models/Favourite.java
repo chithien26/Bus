@@ -1,23 +1,26 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "favourite")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Favourite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     @ManyToOne
     @JoinColumn(name = "route_id")
-    private Route route;
+    Route route;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
-
-    public Favourite() {
-    }
+    User user;
 
     public int getId() {
         return id;

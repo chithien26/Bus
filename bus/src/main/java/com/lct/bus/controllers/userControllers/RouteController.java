@@ -15,7 +15,7 @@ public class RouteController {
     @Autowired
     private RouteService routeService;
 
-    @GetMapping("/list")
+    @GetMapping
     public List<Route> getAllRoutes(@RequestParam(value = "kw", required = false) String kw) {
         if (kw == null || kw.trim().isEmpty()) {
             return routeService.getAllRoutes();
@@ -24,7 +24,7 @@ public class RouteController {
     }
 
     @GetMapping("/{id}")
-    public Route routeDetail(@PathVariable(value = "id") int id){
+    public Route routeDetail(@PathVariable(value = "id") int id) {
         return routeService.getRouteById(id);
     }
 }

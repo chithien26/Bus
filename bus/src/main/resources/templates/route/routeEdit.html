@@ -18,7 +18,11 @@
             <form th:action="@{/admin/route/edit/{id}(id=${route.id})}" method="POST">
                 <div class="mb-3">
                     <label for="id" class="form-label">Route ID</label>
-                    <input type="number" class="form-control" id="id" name="id" th:value="${route.id}" required>
+                    <input type="number" class="form-control" id="id" name="id" th:value="${route.id}" required readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="routeNumber" class="form-label">Route Number</label>
+                    <input type="number" class="form-control" id="routeNumber" name="routeNumber" th:value="${route.routeNumber}" required>
                 </div>
                 <div class="mb-3">
                     <label for="routeName" class="form-label">Route Name</label>

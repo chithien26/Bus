@@ -17,10 +17,9 @@ public class AdminStationController {
     @GetMapping("")
     public String listStations(Model model, @RequestParam(value = "kw", required = false) String kw) {
         model.addAttribute("station", new StationDTO());
-        if(kw == null || kw.isEmpty()){
+        if (kw == null || kw.isEmpty()) {
             model.addAttribute("stations", stationService.getAllStation());
-        }
-        else{
+        } else {
             model.addAttribute("stations", stationService.getAllStationWithKw(kw));
         }
         return "station/stationManage";

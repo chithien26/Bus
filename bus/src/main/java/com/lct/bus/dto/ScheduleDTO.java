@@ -2,9 +2,12 @@ package com.lct.bus.dto;
 
 import com.lct.bus.models.BusTrip;
 import com.lct.bus.models.Station;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+
 
 public class ScheduleDTO {
     private int id;
@@ -13,22 +16,6 @@ public class ScheduleDTO {
     private BusTrip busTrip;
     private LocalDateTime createdDate;
     private Boolean active;
-
-    public BusTrip getBusTrip() {
-        return busTrip;
-    }
-
-    public void setBusTrip(BusTrip busTrip) {
-        this.busTrip = busTrip;
-    }
-
-    public Station getStation() {
-        return station;
-    }
-
-    public void setStation(Station station) {
-        this.station = station;
-    }
 
     public int getId() {
         return id;
@@ -44,6 +31,22 @@ public class ScheduleDTO {
 
     public void setArrivalTime(LocalTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    public Station getStation() {
+        return station;
+    }
+
+    public void setStation(Station station) {
+        this.station = station;
+    }
+
+    public BusTrip getBusTrip() {
+        return busTrip;
+    }
+
+    public void setBusTrip(BusTrip busTrip) {
+        this.busTrip = busTrip;
     }
 
     public LocalDateTime getCreatedDate() {

@@ -19,11 +19,11 @@ public class ScheduleService {
     @Autowired
     private StationService stationService;
 
-    public List<Schedule> getAllSchedules(){
+    public List<Schedule> getAllSchedules() {
         return scheduleRepository.findAll();
     }
 
-    public List<Schedule> getAllSchedulesWithKw(String kw){
+    public List<Schedule> getAllSchedulesWithKw(String kw) {
         return scheduleRepository.findAllWithKw(kw);
     }
 
@@ -39,7 +39,7 @@ public class ScheduleService {
 
     public void createSchedule(ScheduleDTO scheduleDTO) {
         Boolean existsschedule = scheduleRepository.existsById(scheduleDTO.getId());
-        if(existsschedule){
+        if (existsschedule) {
             new RuntimeException("schedule đã tồn tại");
         }
 

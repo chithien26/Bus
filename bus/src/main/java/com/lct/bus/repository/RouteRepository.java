@@ -14,7 +14,9 @@ import java.util.Map;
 @Transactional
 public interface RouteRepository extends JpaRepository<Route, Integer> {
     @Query("SELECT r FROM Route r WHERE " +
-            "(CAST(r.id AS string) LIKE %:kw%) OR " +
+            "(CAST(r.routeNumber AS string) LIKE %:kw%) OR " +
             "(LOWER(r.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<Route> findAllWithKw(String kw);
+
+
 }

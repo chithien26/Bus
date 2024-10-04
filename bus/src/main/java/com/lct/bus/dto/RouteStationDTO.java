@@ -2,6 +2,8 @@ package com.lct.bus.dto;
 
 import com.lct.bus.models.Route;
 import com.lct.bus.models.Station;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 public class RouteStationDTO {
     private int id;

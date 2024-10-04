@@ -30,6 +30,7 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
     public User getUserById(int id) {
         return userRepository.findById(id).orElse(null);
     }
@@ -58,9 +59,10 @@ public class UserService {
         userUpdate.setEmail(user.getEmail());
         userUpdate.setRole(user.getRole());
         userUpdate.setAvatar(user.getAvatar());
-        userUpdate.setActive(user.getActive());
+        userUpdate.setActive(user.isActive());
         userRepository.save(userUpdate);
     }
+
     public void createUser(UserDTO userDTO) {
         String encodedPassword = passwordEncoder.encode(userDTO.getPassword());
         User u = new User();

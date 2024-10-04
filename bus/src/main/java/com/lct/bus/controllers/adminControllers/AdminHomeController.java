@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminHomeController {
 
     @GetMapping("")
-    public String index(Model model){
+    public String index(Model model) {
         return "home";
     }
 }

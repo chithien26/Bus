@@ -4,10 +4,14 @@ package com.lct.bus.dto;
 import com.lct.bus.models.Route;
 import com.lct.bus.models.Schedule;
 import com.lct.bus.models.Vehicle;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+@Data
+@NoArgsConstructor
 public class BusTripDTO {
     private int id;
     private int tripNumber;
@@ -17,24 +21,6 @@ public class BusTripDTO {
 
     private Route route;
     private Vehicle vehicle;
-
-    public Route getRoute() {
-        return route;
-    }
-
-    public void setRoute(Route route) {
-        this.route = route;
-    }
-
-
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
 
     public int getId() {
         return id;
@@ -74,5 +60,21 @@ public class BusTripDTO {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }

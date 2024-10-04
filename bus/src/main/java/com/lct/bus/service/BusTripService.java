@@ -14,11 +14,11 @@ public class BusTripService {
     @Autowired
     private BusTripRepository busTripRepository;
 
-    public List<BusTrip> getAllBusTrips(){
+    public List<BusTrip> getAllBusTrips() {
         return busTripRepository.findAll();
     }
 
-    public List<BusTrip> getAllBusTripsWithKw(String kw){
+    public List<BusTrip> getAllBusTripsWithKw(String kw) {
         return busTripRepository.findAllWithKw(kw);
     }
 
@@ -34,7 +34,7 @@ public class BusTripService {
 
     public void createBusTrip(BusTripDTO busTripDTO) {
         Boolean existsbusTrip = busTripRepository.existsById(busTripDTO.getId());
-        if(existsbusTrip){
+        if (existsbusTrip) {
             new RuntimeException("Bus Trip đã tồn tại");
         }
 

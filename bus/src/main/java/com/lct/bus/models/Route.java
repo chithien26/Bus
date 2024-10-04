@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -12,49 +14,35 @@ import java.util.Set;
 
 @Entity
 @Table(name = "route")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Route {
     @Id
-    private int id;
+    int id;
+    @Column(name = "route_number")
+    Integer routeNumber;
     @NotNull
     @Size(min = 1, max = 100)
-    private String name;
-    private LocalTime firstTrip;
-    private LocalTime lastTrip;
-    private Double fare;
-    private LocalDateTime createdDate;
-    private Boolean active;
+    String name;
+    LocalTime firstTrip;
+    LocalTime lastTrip;
+    Double fare;
+    LocalDateTime createdDate;
+    Boolean active;
 
     @JsonIgnore
     @OneToMany(mappedBy = "route")
-    private Set<BusTrip> busTrips = new HashSet<>();
+    Set<BusTrip> busTrips = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "route")
-    private Set<RouteStation> routeStationSet = new HashSet<>();
+    Set<RouteStation> routeStationSet = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "route")
-    private Set<Favourite> favourites = new HashSet<>();
-
-
-    public Route() {
-    }
-
-    public Set<RouteStation> getRouteStationSet() {
-        return routeStationSet;
-    }
-
-    public void setRouteStationSet(Set<RouteStation> routeStationSet) {
-        this.routeStationSet = routeStationSet;
-    }
-
-    public Set<Favourite> getFavourites() {
-        return favourites;
-    }
-
-    public void setFavourites(Set<Favourite> favourites) {
-        this.favourites = favourites;
-    }
+    Set<Favourite> favourites = new HashSet<>();
 
     public int getId() {
         return id;
@@ -62,6 +50,14 @@ public class Route {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public Integer getRouteNumber() {
+        return routeNumber;
+    }
+
+    public void setRouteNumber(Integer routeNumber) {
+        this.routeNumber = routeNumber;
     }
 
     public @NotNull @Size(min = 1, max = 100) String getName() {
@@ -112,12 +108,27 @@ public class Route {
         this.active = active;
     }
 
-
     public Set<BusTrip> getBusTrips() {
         return busTrips;
     }
 
     public void setBusTrips(Set<BusTrip> busTrips) {
         this.busTrips = busTrips;
+    }
+
+    public Set<RouteStation> getRouteStationSet() {
+        return routeStationSet;
+    }
+
+    public void setRouteStationSet(Set<RouteStation> routeStationSet) {
+        this.routeStationSet = routeStationSet;
+    }
+
+    public Set<Favourite> getFavourites() {
+        return favourites;
+    }
+
+    public void setFavourites(Set<Favourite> favourites) {
+        this.favourites = favourites;
     }
 }

@@ -27,10 +27,9 @@ public class AdminRouteStationController {
         model.addAttribute("routeStation", new RouteStationDTO());
         model.addAttribute("routes", routeService.getAllRoutes());
         model.addAttribute("stations", stationService.getAllStation());
-        if(kw == null || kw.isEmpty()){
+        if (kw == null || kw.isEmpty()) {
             model.addAttribute("routeStations", routeStationService.getAllRouteStation());
-        }
-        else{
+        } else {
             model.addAttribute("routeStations", routeStationService.getAllRouteStationWithKw(kw));
         }
         return "routeStation/routeStationManage";

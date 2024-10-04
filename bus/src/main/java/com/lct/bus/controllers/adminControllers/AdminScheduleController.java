@@ -27,10 +27,9 @@ public class AdminScheduleController {
         model.addAttribute("schedule", new ScheduleDTO());
         model.addAttribute("busTrips", busTripService.getAllBusTrips());
         model.addAttribute("stations", stationService.getAllStation());
-        if(kw == null || kw.isEmpty()){
+        if (kw == null || kw.isEmpty()) {
             model.addAttribute("schedules", scheduleService.getAllSchedules());
-        }
-        else{
+        } else {
             model.addAttribute("schedules", scheduleService.getAllSchedulesWithKw(kw));
         }
         return "schedule/scheduleManage";

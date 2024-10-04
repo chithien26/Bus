@@ -2,6 +2,8 @@ package com.lct.bus.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.core.serializer.Serializer;
 
 import java.io.Serializable;
@@ -11,44 +13,27 @@ import java.util.Set;
 
 @Entity
 @Table(name = "station")
+
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id ;
-    private String name;
-    private String address;
-    private Double longitude;
-    private Double latitude;
-    private LocalDateTime createdDate;
-    private Boolean active;
+    int id;
+    String name;
+    String address;
+    Double longitude;
+    Double latitude;
+    LocalDateTime createdDate;
+    Boolean active;
 
     @JsonIgnore
     @OneToMany(mappedBy = "station", fetch = FetchType.LAZY)
-    private Set<RouteStation> routeStationSet = new HashSet<>();
+    Set<RouteStation> routeStationSet = new HashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "station", fetch = FetchType.LAZY)
-    private Set<Schedule> schedules = new HashSet<>();
-
-    @JsonIgnore
-    public Station() {
-    }
-
-    public Set<RouteStation> getRouteStationSet() {
-        return routeStationSet;
-    }
-
-    public void setRouteStationSet(Set<RouteStation> routeStationSet) {
-        this.routeStationSet = routeStationSet;
-    }
-
-    public Set<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(Set<Schedule> schedules) {
-        this.schedules = schedules;
-    }
+    Set<Schedule> schedules = new HashSet<>();
 
     public int getId() {
         return id;
@@ -106,5 +91,19 @@ public class Station {
         this.active = active;
     }
 
+    public Set<RouteStation> getRouteStationSet() {
+        return routeStationSet;
+    }
 
+    public void setRouteStationSet(Set<RouteStation> routeStationSet) {
+        this.routeStationSet = routeStationSet;
+    }
+
+    public Set<Schedule> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<Schedule> schedules) {
+        this.schedules = schedules;
+    }
 }

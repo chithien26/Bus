@@ -1,20 +1,20 @@
 package com.lct.bus.dto;
 
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 
+@NoArgsConstructor
 public class RouteDTO {
     private Integer id;
+    private Integer routeNumber;
     private String name;
     private LocalTime firstTrip;
     private LocalTime lastTrip;
     private Double fare;
     private Boolean active;
-
-
-    public RouteDTO() {
-    }
 
     public Integer getId() {
         return id;
@@ -22,6 +22,14 @@ public class RouteDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getRouteNumber() {
+        return routeNumber;
+    }
+
+    public void setRouteNumber(Integer routeNumber) {
+        this.routeNumber = routeNumber;
     }
 
     public String getName() {

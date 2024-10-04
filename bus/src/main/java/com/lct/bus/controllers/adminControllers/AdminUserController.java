@@ -24,10 +24,9 @@ public class AdminUserController {
 
     @GetMapping("")
     public String listUsers(Model model, @RequestParam(value = "username", required = false) String username) {
-        if(username == null || username.isEmpty()){
+        if (username == null || username.isEmpty()) {
             model.addAttribute("users", userService.getAllUsers());
-        }
-        else{
+        } else {
             model.addAttribute("users", userService.getAllUserByUsername(username));
         }
         return "user/userManage";
@@ -42,7 +41,7 @@ public class AdminUserController {
 
     @PostMapping("/add")
     public String createUser(@ModelAttribute("user") @Valid UserDTO userDTO, BindingResult result, Model model) {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             model.addAttribute("roles", Role.values());
             return "user/createUser";
         }

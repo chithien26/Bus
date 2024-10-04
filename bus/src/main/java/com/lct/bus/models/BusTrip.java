@@ -2,6 +2,8 @@ package com.lct.bus.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -10,29 +12,30 @@ import java.util.List;
 
 @Entity
 @Table(name = "bus_trip")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BusTrip {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int tripNumber;
-    private LocalTime departureTime;
-    private LocalDateTime createdDate;
-    private Boolean active;
+    int id;
+    int tripNumber;
+    LocalTime departureTime;
+    LocalDateTime createdDate;
+    Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "route_id")
-    private Route route;
+    Route route;
 
     @ManyToOne
     @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    Vehicle vehicle;
 
     @JsonIgnore
     @OneToMany(mappedBy = "busTrip", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
-
-    public BusTrip() {
-    }
+    List<Schedule> schedules = new ArrayList<>();
 
     public int getId() {
         return id;

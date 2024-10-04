@@ -56,6 +56,7 @@
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Route Number</th>
                         <th>Name</th>
                         <th>First Trip</th>
                         <th>Last Trip</th>
@@ -66,6 +67,7 @@
                     <tbody>
                     <tr th:each="route : ${routes}">
                         <td th:text="${route.id}"></td>
+                        <td th:text="${route.routeNumber}"></td>
                         <td th:text="${route.name}"></td>
                         <td th:text="${route.firstTrip}"></td>
                         <td th:text="${route.lastTrip}"></td>
@@ -85,8 +87,8 @@
                 <div class="form-header">Add New Route</div>
                 <form th:action="@{/admin/route/add}" method="POST">
                     <div class="mb-2">
-                        <label for="id" class="form-label">Route ID</label>
-                        <input type="number" class="form-control form-control-sm" id="id" name="id" required>
+                        <label for="routeNumber" class="form-label">Route Nunber</label>
+                        <input type="number" class="form-control form-control-sm" id="routeNumber" name="routeNumber" required>
                     </div>
                     <div class="mb-2">
                         <label for="name" class="form-label">Route Name</label>

@@ -13,7 +13,8 @@ import java.util.List;
 @Transactional
 public interface StationRepository extends JpaRepository<Station, Integer> {
     @Query("SELECT s FROM Station s WHERE " +
-            "(CAST(s.id AS string) LIKE %:kw%) OR " +
+            "(CAST(s.id AS string) LIKE :kw) OR " +
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<Station> findAllWithKw(String kw);
+
 }

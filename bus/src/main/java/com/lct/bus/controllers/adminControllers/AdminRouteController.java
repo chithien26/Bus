@@ -18,10 +18,9 @@ public class AdminRouteController {
     @GetMapping("")
     public String listRoutes(Model model, @RequestParam(value = "kw", required = false) String kw) {
         model.addAttribute("route", new RouteDTO());
-        if(kw == null || kw.isEmpty()){
+        if (kw == null || kw.isEmpty()) {
             model.addAttribute("routes", routeService.getAllRoutes());
-        }
-        else{
+        } else {
             model.addAttribute("routes", routeService.getAllRoutesWithKw(kw));
         }
         return "route/routeManage";

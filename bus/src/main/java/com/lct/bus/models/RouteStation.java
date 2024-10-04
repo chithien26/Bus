@@ -1,32 +1,35 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "route_station")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RouteStation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     @Column(name = "`order`")
-    private int order;
+    int order;
     @Column(name = "dist_to_next")
-    private Double distToNext;
-    private LocalDateTime createdDate;
-    private Boolean active;
+    Double distToNext;
+    LocalDateTime createdDate;
+    Boolean active;
 
     @ManyToOne
     @JoinColumn(name = "route_id")
-    private Route route;
+    Route route;
 
     @ManyToOne
     @JoinColumn(name = "station_id")
-    private Station station;
-
-    public RouteStation() {
-    }
+    Station station;
 
     public int getId() {
         return id;

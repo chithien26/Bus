@@ -1,6 +1,8 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDateTime;
@@ -10,43 +12,33 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     @Column(name = "first_name")
-    private String firstName;
+    String firstName;
     @Column(name = "last_name")
-    private String lastName;
-    private String username;
-    private String password;
-    private String phone;
-    private String email;
-    private String avatar;
-    private String role;
+    String lastName;
+    String username;
+    String password;
+    String phone;
+    String email;
+    String avatar;
+    String role;
+    boolean active;
 
     @Column(name = "created_date")
-    private LocalDateTime createdDate;
+    LocalDateTime createdDate;
 
     @OneToMany(mappedBy = "user")
-    private Set<Favourite> favourites = new HashSet<>();
+    Set<Favourite> favourites = new HashSet<>();
 
-    private boolean active;
 
-    public User() {
-    }
-
-    public Set<Favourite> getFavourites() {
-        return favourites;
-    }
-
-    public void setFavourites(Set<Favourite> favourites) {
-        this.favourites = favourites;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
 
     public int getId() {
         return id;
@@ -120,6 +112,14 @@ public class User {
         this.role = role;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public LocalDateTime getCreatedDate() {
         return createdDate;
     }
@@ -128,11 +128,11 @@ public class User {
         this.createdDate = createdDate;
     }
 
-    public boolean getActive() {
-        return active;
+    public Set<Favourite> getFavourites() {
+        return favourites;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public void setFavourites(Set<Favourite> favourites) {
+        this.favourites = favourites;
     }
 }

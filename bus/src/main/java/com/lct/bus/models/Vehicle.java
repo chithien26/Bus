@@ -1,6 +1,8 @@
 package com.lct.bus.models;
 
 import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -8,29 +10,22 @@ import java.util.Set;
 
 @Entity
 @Table(name = "vehicle")
+@Getter
+@Setter
+@NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
     @Column(name = "license_plates")
-    private String licensePlates;
-    private int capacity;
-    private LocalDateTime createdDate;
-    private Boolean active;
+    String licensePlates;
+    int capacity;
+    LocalDateTime createdDate;
+    Boolean active;
 
     @OneToMany(mappedBy = "vehicle")
-    private Set<BusTrip> busTrips = new HashSet<>();
-
-    public Vehicle() {
-    }
-
-    public Set<BusTrip> getBusTrips() {
-        return busTrips;
-    }
-
-    public void setBusTrips(Set<BusTrip> busTrips) {
-        this.busTrips = busTrips;
-    }
+    Set<BusTrip> busTrips = new HashSet<>();
 
     public int getId() {
         return id;
@@ -70,5 +65,13 @@ public class Vehicle {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Set<BusTrip> getBusTrips() {
+        return busTrips;
+    }
+
+    public void setBusTrips(Set<BusTrip> busTrips) {
+        this.busTrips = busTrips;
     }
 }

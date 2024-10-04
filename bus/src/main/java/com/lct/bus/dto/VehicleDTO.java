@@ -1,6 +1,10 @@
 package com.lct.bus.dto;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
+
 
 public class VehicleDTO {
     private int id;
@@ -8,6 +12,9 @@ public class VehicleDTO {
     private int capacity;
     private LocalDateTime createdDate;
     private Boolean active;
+
+    public VehicleDTO() {
+    }
 
     public int getId() {
         return id;
