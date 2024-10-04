@@ -9,7 +9,7 @@ const RoutePage = () => {
 
     const fetchRoutes = async (keyword = '') => {
         try {
-            const response = await axios.get(`http://localhost:8080/route/list?kw=${keyword}`); // Gọi API để lấy dữ liệu routes
+            const response = await axios.get(`http://localhost:8080/route?kw=${keyword}`); // Gọi API để lấy dữ liệu routes
             setRoutes(response.data); // Cập nhật state với dữ liệu nhận được
         } catch (err) {
             setError(err.message); // Cập nhật state lỗi nếu xảy ra
