@@ -17,5 +17,8 @@ public interface RouteStationRepository extends JpaRepository<RouteStation, Inte
             "(LOWER(rs.station.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<RouteStation> findAllWithKw(String kw);
 
+    @Query("SELECT rs FROM RouteStation rs WHERE rs.route.id = :id")
+    List<RouteStation> getByRouteId(int id);
+
 
 }

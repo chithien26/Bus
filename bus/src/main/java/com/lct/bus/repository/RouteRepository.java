@@ -18,5 +18,12 @@ public interface RouteRepository extends JpaRepository<Route, Integer> {
             "(LOWER(r.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<Route> findAllWithKw(String kw);
 
+    @Query("SELECT rs.route "
+            + "FROM RouteStation rs "
+            + "WHERE rs.station.id IN (:startStationId, :endStationId) "
+            + "GROUP BY rs.route.id "
+            + "HAVING COUNT(DISTINCT rs.station.id) = 2")
+    List<Route> findRouteByTwoStation(int startStationId, int endStationId);
+
 
 }

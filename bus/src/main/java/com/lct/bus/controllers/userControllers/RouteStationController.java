@@ -17,5 +17,10 @@ public class RouteStationController {
     @Autowired
     private RouteStationService routeStationService;
 
+    @GetMapping("/route/{routeId}")
+    public List<RouteStation> getRouteStationByRouteId(@PathVariable(value = "routeId") int id){
+        return routeStationService.getByRouteId(id);
+    }
+
 
 }

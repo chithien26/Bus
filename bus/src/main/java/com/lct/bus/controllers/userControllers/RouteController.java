@@ -27,4 +27,9 @@ public class RouteController {
     public Route routeDetail(@PathVariable(value = "id") int id) {
         return routeService.getRouteById(id);
     }
+
+    @GetMapping("/get-by-two-station")
+    public Route getRouteByTwoStation(@RequestParam(value = "startStationId") int startStationId, @RequestParam(value = "endStationId") int endStationId){
+        return routeService.getRouteByTwoStation(startStationId, endStationId);
+    }
 }

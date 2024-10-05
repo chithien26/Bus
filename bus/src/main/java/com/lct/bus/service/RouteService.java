@@ -69,4 +69,12 @@ public class RouteService {
     public void deleteRoute(int id) {
         routeRepository.deleteById(id);
     }
+
+    public List<Route> findRouteByTwoStation(int startStationId, int endStationId){
+        return routeRepository.findRouteByTwoStation(startStationId, endStationId);
+    }
+
+    public Route getRouteByTwoStation(int startStationId, int endStationId){
+        return findRouteByTwoStation(startStationId, endStationId).getFirst();
+    }
 }

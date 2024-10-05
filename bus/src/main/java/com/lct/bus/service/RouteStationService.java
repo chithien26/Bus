@@ -67,4 +67,8 @@ public class RouteStationService {
     public void deleteRouteStation(int id) {
         routeStationRepository.deleteById(id);
     }
+
+    public List<RouteStation> getByRouteId(int id){
+        return routeStationRepository.getByRouteId(id);
+    }
 }
