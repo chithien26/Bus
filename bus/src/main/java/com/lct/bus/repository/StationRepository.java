@@ -17,4 +17,7 @@ public interface StationRepository extends JpaRepository<Station, Integer> {
             "(LOWER(s.name) LIKE LOWER(CONCAT('%', :kw, '%')))")
     List<Station> findAllWithKw(String kw);
 
+    @Query("SELECT s FROM Station s order by s.name")
+    List<Station> findAll();
+
 }

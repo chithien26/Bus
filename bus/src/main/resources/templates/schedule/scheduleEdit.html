@@ -21,25 +21,26 @@
                     <input type="number" class="form-control" id="id" name="id" th:value="${schedule.id}" required readonly>
                 </div>
                 <div class="mb-3">
-                    <label for="station" class="form-label">Station</label>
-                    <select class="form-select" id="station" name="station.id" required>
-                        <option th:each="station : ${stations}"
-                                th:value="${station.id}"
-                                th:text="${station.name}"
-                                th:selected="${schedule.station} == ${station}">
-                        </option>
-                    </select>
-                </div>
-                <div class="mb-3">
                     <label for="busTrip" class="form-label">Bus Trip</label>
                     <select class="form-select" id="busTrip" name="busTrip.id" required>
                         <option th:each="busTrip : ${busTrips}"
                                 th:value="${busTrip.id}"
-                                th:text="${busTrip.id}"
+                                th:text="${busTrip.route.name} + ' - ' + ${busTrip.departureTime}"
                                 th:selected="${schedule.busTrip} == ${busTrip}">
                         </option>
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="station" class="form-label">Station</label>
+                    <select class="form-select" id="station" name="station.id" required>
+                        <option th:each="station : ${stations}"
+                                th:value="${station.id}"
+                                th:text="${station.name} + ' - ' + ${station.address}"
+                                th:selected="${schedule.station} == ${station}">
+                        </option>
+                    </select>
+                </div>
+
                 <div class="mb-3">
                     <label for="arrivalTime" class="form-label">Arrival time</label>
                     <input type="time" class="form-control form-control-sm" id="arrivalTime" name="arrivalTime" required>
