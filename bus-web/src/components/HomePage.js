@@ -11,7 +11,7 @@ const Home = () => {
 
             <div className="row mb-4">
                 <div className="col-md-6">
-                    <img src="https://via.placeholder.com/500" alt="Bus Service" className="img-fluid rounded shadow" />
+                    <img src="https://image-us.24h.com.vn/upload/1-2022/images/2022-03-08/Xe-buyt-dien-chinh-thuc-lan-banh-o-TPHCM-gia-ve-cho-hoc-sinh-sinh-vien-chi-3000-dong-luot-1-1646719796-112-width2000height1313.jpg" alt="Bus Service" className="img-fluid rounded shadow" />
                 </div>
                 <div className="col-md-6">
                     <h2>Giới thiệu Dịch Vụ</h2>

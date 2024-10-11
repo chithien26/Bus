@@ -17,7 +17,7 @@ const TimDuong = () => {
     // Gọi API để lấy danh sách trạm xe buýt
     const loadStations = async () => {
       try {
-        let res = await axios.get('http://localhost:8080/station/list');
+        let res = await axios.get('http://localhost:8080/station');
         setStations(res.data);
       } catch (error) {
         console.error('Error loading stations:', error);

@@ -1,114 +1,75 @@
-import React, { useState } from 'react';
+// Login.js
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MyDispatchContext } from '../App';
 import axios from 'axios';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate();
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState(null);
+    const dispatch = useContext(MyDispatchContext);
+    const navigate = useNavigate();
 
-  // CSS inline cho các thành phần
-  const containerStyle = {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    backgroundColor: '#f8f9fa',
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError(null);
 
-  const formStyle = {
-    width: '300px',
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-  };
+        try {
+            // Gửi yêu cầu đăng nhập đến API
+            const response = await axios.post('http://localhost:8080/login', {
+                username,
+                password
+            });
 
-  const labelStyle = {
-    marginBottom: '5px',
-    fontSize: '14px',
-    fontWeight: 'bold',
-  };
+            // Nhận token từ phản hồi và lưu trữ vào localStorage hoặc cookie
+            const { token } = response.data;
+            localStorage.setItem('access-token', token);
 
-  const inputStyle = {
-    width: '100%',
-    padding: '10px',
-    margin: '10px 0',
-    borderRadius: '4px',
-    border: '1px solid #ced4da',
-  };
+            // Lưu thông tin người dùng vào Context
+            dispatch({ type: 'login', payload: { username } });
 
-  const buttonStyle = {
-    width: '100%',
-    padding: '10px',
-    backgroundColor: '#007bff',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
-  };
+            // Điều hướng đến trang chủ sau khi đăng nhập thành công
+            navigate('/');
+        } catch (err) {
+            setError('Tên đăng nhập hoặc mật khẩu không đúng');
+        }
+    };
 
-  const errorStyle = {
-    color: 'red',
-    marginTop: '10px',
-  };
+    return (
+        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "80vh" }}>
+            <div style={{ width: "400px" }}>
+                <h3 className="text-center mb-4">Đăng Nhập</h3>
+                {error && <Alert variant="danger">{error}</Alert>}
+                <Form onSubmit={handleSubmit}>
+                    <Form.Group controlId="username">
+                        <Form.Label>Tên đăng nhập</Form.Label>
+                        <Form.Control
+                            type="text"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+                    <Form.Group controlId="password" className="mt-3">
+                        <Form.Label>Mật khẩu</Form.Label>
+                        <Form.Control
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </Form.Group>
 
-    try {
-      const response = await axios.post('http://localhost:8080/login', {
-        username: username,
-        password: password,
-      });
-
-      // Lưu token vào localStorage hoặc cookie
-      localStorage.setItem('token', response.data);
-
-      // Điều hướng tới trang Dashboard sau khi đăng nhập thành công
-      navigate('/');
-    } catch (error) {
-      setErrorMessage('Invalid username or password');
-    }
-  };
-
-  return (
-    <div style={containerStyle}>
-      <form style={formStyle} onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: 'center' }}>Login</h2>
-
-        <div>
-          <label style={labelStyle} htmlFor="username">Username</label>
-          <input
-            style={inputStyle}
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label style={labelStyle} htmlFor="password">Password</label>
-          <input
-            style={inputStyle}
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-
-        {errorMessage && <p style={errorStyle}>{errorMessage}</p>}
-
-        <button type="submit" style={buttonStyle}>Login</button>
-      </form>
-    </div>
-  );
+                    <Button variant="primary" type="submit" className="mt-4 w-100">
+                        Đăng nhập
+                    </Button>
+                </Form>
+            </div>
+        </Container>
+    );
 };
 
 export default Login;

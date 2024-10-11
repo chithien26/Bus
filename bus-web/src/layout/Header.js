@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import {jwtDecode} from "jwt-decode"; 
+// Header.js
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { MyDispatchContext, MyUserContext } from '../App';
+import { Button } from 'react-bootstrap';
 
 const Header = () => {
-    const [loggedInUser, setLoggedInUser] = useState(null);
-    const [userData, setUserData] = useState(null);
-
-    useEffect(() => {
-      const token = localStorage.getItem("token"); // Lấy token từ localStorage
-      
-      if (token) {
-        try {
-          // Sử dụng jwtDecode thay vì atob
-          const decoded = jwtDecode(token);
-
-          setUserData(decoded); // Lưu thông tin người dùng sau khi decode
-        } catch (error) {
-          console.error("Failed to decode JWT:", error);
-        }
-      } else {
-        console.log("No token found");
-      }
-    }, []);
+    const user = useContext(MyUserContext);
+    const dispatch = useContext(MyDispatchContext);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        setLoggedInUser(null);
+        localStorage.removeItem('access-token');
+        dispatch({ type: 'logout' });
+        navigate('/login');
     };
 
     return (
@@ -34,69 +21,29 @@ const Header = () => {
                 <Link className="navbar-brand" to="/">
                     <i className="fas fa-bus"></i> BusApp
                 </Link>
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <Link className="nav-link" to="/">
-                                <i className="fas fa-home"></i> Home
-                            </Link>
+                            <Link className="nav-link" to="/"> <i className="fas fa-home"></i> Home</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/route">
-                                <i className="fas fa-route"></i> Route
-                            </Link>
+                            <Link className="nav-link" to="/route"> <i className="fas fa-route"></i> Route</Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to="/station">
-                                <i className="fas fa-bus"></i> Station
-                            </Link>
+                            <Link className="nav-link" to="/station"><i className="fas fa-bus"></i> Station</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/about">
-                                <i className="fas fa-info-circle"></i> About
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            <Link className="nav-link" to="/find-route">
-                                <i className="fas fa-search"></i> Find Route
-                            </Link>
-                        </li>
-                        <li className="nav-item">
-                            {userData ? (
-                                <p>Welcome, {userData.username}</p> // Hiển thị thông tin người dùng
+                        <li className="nav-item d-flex align-items-center"> {/* Sử dụng d-flex và align-items-center */}
+                            {user ? (
+                                <>
+                                    <span className="nav-link me-2"><i className="fas fa-user"></i> {user.username}</span>
+                                    <Link className="nav-link" to="#" onClick={handleLogout}>
+                                        <i className="fas fa-sign-out-alt"></i> Đăng xuất
+                                    </Link>
+                                </>
                             ) : (
-                                <p>Please log in</p>
+                                <Link className="nav-link" to="/login"><i className="fas fa-sign-in-alt"></i> Đăng nhập</Link>
                             )}
                         </li>
-                        {loggedInUser ? (
-                            <>
-                                <li className="nav-item">
-                                    <span className="nav-link text-light">Hello, {loggedInUser}!</span>
-                                </li>
-                                <li className="nav-item">
-                                    <button className="nav-link btn btn-link text-light" onClick={handleLogout}>
-                                        <i className="fas fa-sign-out-alt"></i> Logout
-                                    </button>
-                                </li>
-                            </>
-                        ) : (
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/login">
-                                    <i className="fas fa-sign-in-alt"></i> Login
-                                </Link>
-                            </li>
-                        )}
                     </ul>
                 </div>
             </div>
