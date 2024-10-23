@@ -58,7 +58,7 @@ public class SecurityConfig {
                 })
                 // Quản lý session cho admin sử dụng form login, còn user sẽ sử dụng JWT
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Sử dụng session
                 )
                 // Đăng nhập form dành cho admin
                 .formLogin(formLogin ->
@@ -76,10 +76,7 @@ public class SecurityConfig {
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
-                )
-                // Thêm JWT filter để xử lý các yêu cầu dành cho user sử dụng JWT
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
+                );
         return http.build();
     }
 }
