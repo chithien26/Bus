@@ -6,6 +6,8 @@ const RoutePage = () => {
     const [loading, setLoading] = useState(true); // State cho loading
     const [error, setError] = useState(null); // State cho lỗi
     const [searchTerm, setSearchTerm] = useState(''); // State cho từ khóa tìm kiếm
+    const [favouriteError, setFavouriteError] = useState(null); // State cho lỗi khi thêm vào yêu thích
+    const [favouriteSuccess, setFavouriteSuccess] = useState(null); // State cho thông báo thành công
 
     const fetchRoutes = async (keyword = '') => {
         try {
@@ -28,6 +30,17 @@ const RoutePage = () => {
         fetchRoutes(searchTerm); // Gọi hàm tìm kiếm với từ khóa
     };
 
+    const addToFavourite = async (routeId) => {
+        try {
+            const response = await axios.post(`http://localhost:8080/route/${routeId}/add-to-favourite`);
+            setFavouriteSuccess(`Đã thêm tuyến đường ${routeId} vào danh sách yêu thích!`);
+            setFavouriteError(null); // Xóa lỗi nếu có
+        } catch (error) {
+            setFavouriteError(error.response?.data || 'Có lỗi xảy ra khi thêm vào yêu thích.');
+            setFavouriteSuccess(null); // Xóa thông báo thành công nếu có
+        }
+    };
+
     if (loading) {
         return <p>Loading...</p>; // Hiển thị thông báo loading
     }
@@ -39,6 +52,9 @@ const RoutePage = () => {
     return (
         <div className="container mt-4">
             <h1 className="text-center mb-4">Danh sách Tuyến Đường</h1>
+
+            {favouriteError && <p className="text-danger">{favouriteError}</p>}
+            {favouriteSuccess && <p className="text-success">{favouriteSuccess}</p>}
 
             <form onSubmit={handleSearch} className="mb-4">
                 <div className="input-group" style={{ width: '400px'}}>
@@ -77,10 +93,18 @@ const RoutePage = () => {
                                 
                                 <button
                                     onClick={() => window.location.href = `/route/${route.id}`}
-                                    className="btn btn-primary"
+                                    className="btn btn-primary me-2"
                                     style={{ cursor: 'pointer' }}
                                 >
                                     Xem chi tiết
+                                </button>
+
+                                <button
+                                    onClick={() => addToFavourite(route.id)}
+                                    className="btn btn-secondary"
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    Thêm vào yêu thích
                                 </button>
                             </div>
                         </div>

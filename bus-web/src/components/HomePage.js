@@ -25,7 +25,7 @@ const Home = () => {
                 <div className="row">
                     <div className="col-md-4">
                         <div className="card mb-4 shadow-sm" style={{ transition: 'transform 0.2s' }}>
-                            <img src="https://via.placeholder.com/300" alt="Economical" className="card-img-top" />
+                            <img src="https://www.prudential.com.vn/export/sites/prudential-vn/vi/.thu-vien/hinh-anh/pulse-nhip-song-khoe/song-khoe/2022/bi-quyet-tiet-kiem-tien-luong-hang-thang-cho-dan-cong-so-1200x800-1.jpg" alt="Economical" className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title">Tiết Kiệm Chi Phí</h5>
                                 <p className="card-text">Giá vé phải chăng giúp bạn tiết kiệm tối đa chi phí đi lại.</p>
@@ -34,7 +34,7 @@ const Home = () => {
                     </div>
                     <div className="col-md-4">
                         <div className="card mb-4 shadow-sm" style={{ transition: 'transform 0.2s' }}>
-                            <img src="https://via.placeholder.com/300" alt="Convenient" className="card-img-top" />
+                            <img src="https://landing-assets.gapowork.com/cover/1200-1200/uploads/10_giai_phap_lam_viec_nhom_hieu_qua_giup_tang_100_nang_suat_lam_viec_17eef231f6.jpg" alt="Convenient" className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title">Tiện Lợi</h5>
                                 <p className="card-text">Nhiều tuyến đường và thời gian linh hoạt giúp bạn dễ dàng di chuyển.</p>
@@ -43,7 +43,7 @@ const Home = () => {
                     </div>
                     <div className="col-md-4">
                         <div className="card mb-4 shadow-sm" style={{ transition: 'transform 0.2s' }}>
-                            <img src="https://via.placeholder.com/300" alt="Eco-Friendly" className="card-img-top" />
+                            <img src="https://tse1.mm.bing.net/th?id=OIP.qxy7jmBQqCkiZWY19mYLbQHaE8&pid=Api&P=0&h=180" alt="Eco-Friendly" className="card-img-top" />
                             <div className="card-body">
                                 <h5 className="card-title">Thân Thiện Với Môi Trường</h5>
                                 <p className="card-text">Giảm thiểu lượng khí thải và ùn tắc giao thông.</p>
@@ -54,6 +54,8 @@ const Home = () => {
             </div>
         </div>
     );
+    
 };
+
 
 export default Home;

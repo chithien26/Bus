@@ -10,6 +10,8 @@ import Login from './components/Login';
 import RouteDetailPage from './components/RouteDetailPage';
 import MyUserReducer from './reducers/MyUserReducer';
 import { Container } from 'react-bootstrap';
+import UserDetail from './components/UserDetails';
+import Favourite from './components/Favourite';
 
 export const MyUserContext = createContext();
 export const MyDispatchContext = createContext();
@@ -29,6 +31,8 @@ function App() {
               <Route path="/find-route" element={<FindRoute />} />
               <Route path="/login" element={<Login />} />
               <Route path="/route/:id" element={<RouteDetailPage />} />
+              <Route path="/current-user" element={<UserDetail />} />
+              <Route path="/favourite" element={<Favourite />} />
             </Routes>
           </Container>
         </BrowserRouter>

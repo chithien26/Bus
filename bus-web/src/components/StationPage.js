@@ -4,15 +4,17 @@ import L from 'leaflet';
 
 // Tạo biểu tượng marker tùy chỉnh để không bị lỗi marker mặc định
 const customMarkerIcon = new L.Icon({
-  iconUrl: '/icons/station-marker.png',
+  iconUrl: '/icons/marker.png',
   iconSize: [35, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowSize: [41, 41],
+  shadowSize: [50, 50],
 });
 
 const StationMap = () => {
   const [stations, setStations] = useState([]);
+
+  const MAPBOX_API_KEY = 'pk.eyJ1IjoiaHV5dGh1YTAiLCJhIjoiY20wbXFjcWkzMDUyeTJycXNncG44OGoxYyJ9.GpSOzqXFCvy_HVOsKP-uHQ';
 
   // Fetch dữ liệu các trạm từ API
   useEffect(() => {
@@ -37,10 +39,12 @@ const StationMap = () => {
         zoom={13}
         style={{ height: '100%', width: '100%' }}
       >
-        {/* TileLayer dùng để tải bản đồ từ OpenStreetMap */}
+        {/* TileLayer dùng để tải bản đồ từ Mapbox */}
         <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
+          url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/512/{z}/{x}/{y}@2x?access_token=${MAPBOX_API_KEY}`}
+          attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> contributors'
+          tileSize={512} // Mapbox yêu cầu kích thước tile là 512
+          zoomOffset={-1} // Điều chỉnh để phù hợp với kích thước 512 của Mapbox
         />
 
         {/* Hiển thị các marker cho từng trạm */}

@@ -32,10 +32,15 @@ const Header = () => {
                         <li className="nav-item">
                             <Link className="nav-link" to="/station"><i className="fas fa-bus"></i> Station</Link>
                         </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/favourite"><i className="fas fa-heart"></i> Favourite</Link>
+                        </li><li className="nav-item">
+                            <Link className="nav-link" to="/find-route"><i className="fas fa-search"></i> Find Route</Link>
+                        </li>
                         <li className="nav-item d-flex align-items-center"> {/* Sử dụng d-flex và align-items-center */}
                             {user ? (
                                 <>
-                                    <span className="nav-link me-2"><i className="fas fa-user"></i> {user.username}</span>
+                                    <Link to="/current-user" className="nav-link me-2"><i className="fas fa-user"></i> {user.username}</Link>
                                     <Link className="nav-link" to="#" onClick={handleLogout}>
                                         <i className="fas fa-sign-out-alt"></i> Đăng xuất
                                     </Link>

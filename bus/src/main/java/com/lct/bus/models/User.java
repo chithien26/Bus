@@ -1,5 +1,6 @@
 package com.lct.bus.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -25,6 +26,7 @@ public class User {
     @Column(name = "last_name")
     String lastName;
     String username;
+    @JsonIgnore
     String password;
     String phone;
     String email;
@@ -35,6 +37,7 @@ public class User {
     @Column(name = "created_date")
     LocalDateTime createdDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     Set<Favourite> favourites = new HashSet<>();
 

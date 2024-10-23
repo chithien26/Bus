@@ -3,16 +3,17 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
-import 'leaflet/dist/leaflet.css'; // Đảm bảo rằng Leaflet CSS đã được import
+import 'leaflet/dist/leaflet.css';
 
 const RouteDetailPage = () => {
     const { id } = useParams();
     const [route, setRoute] = useState(null);
-    const [routeStations, setRouteStations] = useState([]); // Dữ liệu các trạm
+    const [routeStations, setRouteStations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    // Fetch thông tin tuyến đường
+    const MAPBOX_API_KEY = 'pk.eyJ1IjoiaHV5dGh1YTAiLCJhIjoiY20wbXFjcWkzMDUyeTJycXNncG44OGoxYyJ9.GpSOzqXFCvy_HVOsKP-uHQ';
+
     useEffect(() => {
         const fetchRouteDetail = async () => {
             try {
@@ -26,12 +27,11 @@ const RouteDetailPage = () => {
         fetchRouteDetail();
     }, [id]);
 
-    // Fetch thông tin các trạm thuộc tuyến
     useEffect(() => {
         const fetchRouteStations = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/route-station/route/${id}`);
-                setRouteStations(response.data); // Cập nhật danh sách các trạm
+                setRouteStations(response.data);
             } catch (err) {
                 setError(err.message);
             } finally {
@@ -50,7 +50,6 @@ const RouteDetailPage = () => {
         return <p>Error: {error}</p>;
     }
 
-    // Tạo danh sách tọa độ từ các trạm để vẽ Polyline
     const stationPositions = routeStations.map(rs => [rs.station.latitude, rs.station.longitude]);
 
     return (
@@ -70,33 +69,33 @@ const RouteDetailPage = () => {
 
                     <div style={{ width: '100%', height: '400px', minHeight: '400px' }}>
                         <MapContainer
-                            center={[10.762622, 106.660172]} // Toạ độ mặc định (TPHCM)
+                            center={stationPositions.length ? stationPositions[0] : [10.762622, 106.660172]} // Mặc định tọa độ đầu tiên hoặc fallback
                             zoom={13}
-                            style={{ height: '100%', width: '100%' }} // Đảm bảo bản đồ full kích thước container
+                            style={{ height: '100%', width: '100%' }}
                         >
                             <TileLayer
-                                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/512/{z}/{x}/{y}@2x?access_token=${MAPBOX_API_KEY}`}
+                                attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a> contributors'
+                                tileSize={512} // Mapbox yêu cầu kích thước tile là 512
+                                zoomOffset={-1} // Điều chỉnh để phù hợp với kích thước 512 của Mapbox
                             />
 
-                            {/* Vẽ đường nối giữa các trạm */}
                             {stationPositions.length > 1 && (
                                 <Polyline positions={stationPositions} color="blue" />
                             )}
 
                             {routeStations.map(rs => {
-                                // Tạo DivIcon hiển thị số thứ tự
                                 const numberedIcon = L.divIcon({
                                     html: `<div style="position: relative; text-align: center; background: #32CD32; border-radius: 50%; width: 25px; height: 25px; line-height: 25px; color: white;">${rs.order}</div>`,
-                                    iconSize: [25, 25], // Kích thước của số
-                                    className: 'custom-div-icon' // Lớp CSS tùy chỉnh
+                                    iconSize: [25, 25],
+                                    className: 'custom-div-icon'
                                 });
 
                                 return (
                                     <Marker
                                         key={rs.station.id}
-                                        position={[rs.station.latitude, rs.station.longitude]} // Sử dụng tọa độ của trạm
-                                        icon={numberedIcon} // Sử dụng icon số thứ tự
+                                        position={[rs.station.latitude, rs.station.longitude]}
+                                        icon={numberedIcon}
                                     >
                                         <Popup>
                                             {rs.station.name} <br /> {rs.station.address}

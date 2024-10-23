@@ -23,18 +23,18 @@ public class AuthController {
     private UserDetailsService userDetailsService;
 
     @PostMapping("/login")
-    public String createToken(@RequestParam String username,
-                              @RequestParam String password) throws Exception {
+    public String createToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {
             authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username,password)
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
             );
         } catch (BadCredentialsException e) {
             throw new Exception("Invalid credentials");
         }
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
         return jwtUtil.generateToken(userDetails);
     }
+
 
 }

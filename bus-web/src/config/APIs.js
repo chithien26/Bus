@@ -10,6 +10,7 @@ export const endpoints = {
     'current-user': '/current-user',
     'bustrip': '/bustrip',
     'schedule': '/schedule',
+    'favourite': '/favourite',
 }
 
 export const authAPIs = () => {

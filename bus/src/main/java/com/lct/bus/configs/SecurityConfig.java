@@ -49,20 +49,25 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(authorizeRequests ->
-                        authorizeRequests
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .anyRequest().permitAll()
-                )
+                .authorizeHttpRequests(authorizeRequests -> {
+                    authorizeRequests
+                            // Các yêu cầu dành cho admin
+                            .requestMatchers("/admin/**").hasRole("ADMIN")
+                            // Các yêu cầu còn lại cho user thường
+                            .anyRequest().permitAll();
+                })
+                // Quản lý session cho admin sử dụng form login, còn user sẽ sử dụng JWT
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Sử dụng session
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                // Đăng nhập form dành cho admin
                 .formLogin(formLogin ->
                         formLogin
-                                .loginPage("/admin/login")
-                                .defaultSuccessUrl("/admin", true)
-                                .permitAll()
+                                .loginPage("/admin/login") // Trang login cho admin
+                                .defaultSuccessUrl("/admin", true) // Redirect sau khi thành công
+                                .permitAll() // Cho phép tất cả truy cập trang login
                 )
+                // Cấu hình logout
                 .logout(logout ->
                         logout
                                 .logoutUrl("/logout")
@@ -71,9 +76,10 @@ public class SecurityConfig {
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
-                );
+                )
+                // Thêm JWT filter để xử lý các yêu cầu dành cho user sử dụng JWT
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
-
-
 }
