@@ -1,18 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { ListGroup, Button } from 'react-bootstrap';
 import L from 'leaflet';
 import axios from 'axios';
 
+// Định nghĩa biểu tượng cho các loại marker
 const startIcon = new L.Icon({
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  shadowSize: [41, 41],
 });
 
 const endIcon = new L.Icon({
@@ -20,8 +19,6 @@ const endIcon = new L.Icon({
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  shadowSize: [41, 41],
 });
 
 const stationIcon = new L.Icon({
@@ -29,51 +26,47 @@ const stationIcon = new L.Icon({
   iconSize: [40, 51],
   iconAnchor: [10, 30],
   popupAnchor: [0, -30],
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-  shadowSize: [40, 40],
 });
 
 const TimDuong = () => {
   const [listStation, setListStation] = useState([]);
-  const [listRouteStation, setListRouteStation] = useState([]);
   const [startAddress, setStartAddress] = useState('');
   const [endAddress, setEndAddress] = useState('');
-  const [mapPosition, setMapPosition] = useState([10.762622, 106.660172]);
+  const [startSuggestions, setStartSuggestions] = useState([]); // Khởi tạo như một mảng rỗng
+  const [endSuggestions, setEndSuggestions] = useState([]); // Khởi tạo như một mảng rỗng
   const [markers, setMarkers] = useState({ start: null, end: null });
-
-  const [startSuggestions, setStartSuggestions] = useState([]);
-  const [endSuggestions, setEndSuggestions] = useState([]);
-
+  const [listRouteStation, setListRouteStation] = useState([]);
   const debounceTimeoutRef = useRef(null);
+  const MAPBOX_API_KEY = 'pk.eyJ1IjoiaHV5dGh1YTAiLCJhIjoiY20wbXFjcWkzMDUyeTJycXNncG44OGoxYyJ9.GpSOzqXFCvy_HVOsKP-uHQ';
 
+  // Tải danh sách trạm từ API
   useEffect(() => {
     const loadStations = async () => {
-      let res = await axios.get('/station');
+      const res = await axios.get('http://localhost:8080/station');
       setListStation(res.data);
     };
     loadStations();
   }, []);
 
-  useEffect(() => {
-    if (listRouteStation.length > 0) {
-      const firstStation = listRouteStation[0];
-      setMapPosition([firstStation.latitude, firstStation.longitude]);
-    }
-  }, [listRouteStation]);
-
+  // Hàm geocode
   const geocode = async (query) => {
-    try {
-      const viewbox = '106.4000,11.1000,107.0000,10.4000';
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&viewbox=${viewbox}&bounded=1`);
-      return await response.json();
-    } catch (error) {
-      console.error('Error in geocoding:', error);
-      return [];
-    }
+    const bbox = '106.573246,10.762622,106.707797,10.869645'; // (minLng, minLat, maxLng, maxLat)
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&bounded=1&viewbox=${bbox}&addressdetails=1`);
+    return await response.json();
   };
 
+
+  // Hàm xử lý thay đổi tìm kiếm
   const handleSearchChange = async (event, type) => {
     const query = event.target.value;
+
+    // Cập nhật địa chỉ
+    if (type === 'start') {
+      setStartAddress(query);
+    } else {
+      setEndAddress(query);
+    }
+
     if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
 
     debounceTimeoutRef.current = setTimeout(async () => {
@@ -82,126 +75,162 @@ const TimDuong = () => {
         if (type === 'start') setStartSuggestions(suggestions);
         else setEndSuggestions(suggestions);
       } else {
-        setStartSuggestions([]);
-        setEndSuggestions([]);
+        // Nếu không có gì được nhập, xóa gợi ý
+        if (type === 'start') setStartSuggestions([]);
+        else setEndSuggestions([]);
       }
-    }, 300);
+    }, 500);
   };
 
-  const getDistance = (lat1, lon1, lat2, lon2) => {
-    const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371;
-    const dLat = toRad(lat2 - lat1);
-    const dLon = toRad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  };
-
-  const findNearestStation = (lat, lon, stations) => {
-    return stations.reduce((nearest, station) => {
+  // Hàm tìm trạm gần nhất
+  const findNearestStation = (lat, lon) => {
+    return listStation.reduce((nearest, station) => {
       const distance = getDistance(lat, lon, station.latitude, station.longitude);
       if (distance < nearest.distance) return { ...station, distance };
       return nearest;
     }, { distance: Infinity });
   };
 
-  const handleSuggestionClick = (suggestion, type) => {
-    const { display_name, lat, lon } = suggestion;
-    if (type === 'start') {
-      setStartAddress(display_name);
-      const nearestStation = findNearestStation(parseFloat(lat), parseFloat(lon), listStation);
-      setMarkers(prev => ({ ...prev, start: nearestStation }));
-    } else if (type === 'end') {
-      setEndAddress(display_name);
-      const nearestStation = findNearestStation(parseFloat(lat), parseFloat(lon), listStation);
-      setMarkers(prev => ({ ...prev, end: nearestStation }));
-    }
-    setMapPosition([parseFloat(lat), parseFloat(lon)]);
-    setStartSuggestions([]);
-    setEndSuggestions([]);
+  // Hàm tính khoảng cách giữa 2 tọa độ
+  const getDistance = (lat1, lon1, lat2, lon2) => {
+    const toRad = (value) => (value * Math.PI) / 180;
+    const R = 6371; // Đường kính trái đất
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Trả về khoảng cách
   };
 
-  const findRouteAndStation = async () => {
+  // Hàm xử lý khi nhấn vào gợi ý
+  const handleSuggestionClick = (suggestion, type) => {
+    const newMarker = { latitude: suggestion.lat, longitude: suggestion.lon };
+    setMarkers((prevMarkers) => ({ ...prevMarkers, [type]: newMarker }));
+    if (type === 'start') {
+      setStartAddress(suggestion.display_name);
+      setStartSuggestions([]); // Xóa gợi ý sau khi chọn
+    } else {
+      setEndAddress(suggestion.display_name);
+      setEndSuggestions([]); // Xóa gợi ý sau khi chọn
+    }
+  };
+
+  // Hàm tìm tuyến đường
+  const findRoute = async () => {
     if (!markers.start || !markers.end) {
-      console.error("Vui lòng chọn điểm đi và điểm đến.");
+      console.error("Vui lòng chọn điểm đi và điểm đến hợp lệ.");
       return;
     }
 
-    try {
-      let resRoute = await axios.get(`http://localhost:8080/route/get-by-two-station?startStationId=${markers.start.id}&endStationId=${markers.end.id}`);
-      let routeId = resRoute.data.id;
+    const nearestStartStation = findNearestStation(markers.start.latitude, markers.start.longitude);
+    const nearestEndStation = findNearestStation(markers.end.latitude, markers.end.longitude);
 
-      let resRouteStations = await axios.get(`http://localhost:8080/route-station/get-route-station-in-route?routeId=${routeId}&startStationId=${markers.start.id}&endStationId=${markers.end.id}`);
-      setListRouteStation(resRouteStations.data);
+    try {
+      const routeRes = await axios.get(`http://localhost:8080/route/get-by-two-station?startStationId=${nearestStartStation.id}&endStationId=${nearestEndStation.id}`);
+      const routeId = routeRes.data.id;
+
+      const stationsRes = await axios.get(`http://localhost:8080/route-station/get-route-station-in-route?routeId=${routeId}&startStationId=${nearestStartStation.id}&endStationId=${nearestEndStation.id}`);
+      setListRouteStation(stationsRes.data);
+      
     } catch (error) {
-      console.error('Lỗi khi tải tuyến hoặc trạm:', error);
+      console.error('Error loading route:', error);
+      alert("Không tìm thấy tuyến nào!");
     }
   };
 
-  const MAPBOX_API_KEY = 'pk.eyJ1IjoiaHV5dGh1YTAiLCJhIjoiY20wbXFjcWkzMDUyeTJycXNncG44OGoxYyJ9.GpSOzqXFCvy_HVOsKP-uHQ';
-
   return (
-    <div className="container mt-4">
-      <div className="d-flex">
-        <div className="form-container" style={{ flex: 3 }}>
-          <div className="form-group mb-3">
-            <h1 className="mb-4">Nhập thông tin điểm đi và điểm đến</h1>
-            <form>
-              <label htmlFor="startAddress" className="form-label">Điểm đi</label>
-              <input type='text' id='startAddress' onChange={(e) => handleSearchChange(e, 'start')} />
-              {startSuggestions.length > 0 && (
-                <ListGroup className="position-absolute z-index-1" style={{ maxHeight: '200px', overflowY: 'auto', maxWidth: '500px' }}>
-                  {startSuggestions.map((suggestion, index) => (
-                    <ListGroup.Item key={index} action onClick={() => handleSuggestionClick(suggestion, 'start')}>
-                      {suggestion.display_name}
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
-              <br />
-              <label htmlFor="endAddress" className="form-label">Điểm đến</label>
-              <input type='text' id='endAddress' onChange={(e) => handleSearchChange(e, 'end')} />
-              {endSuggestions.length > 0 && (
-                <ListGroup className="position-absolute z-index-1" style={{ maxHeight: '200px', overflowY: 'auto', width: '100%' }}>
-                  {endSuggestions.map((suggestion, index) => (
-                    <ListGroup.Item key={index} action onClick={() => handleSuggestionClick(suggestion, 'end')}>
-                      {suggestion.display_name}
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              )}
-              <Button variant="success" className="w-100 mb-2" onClick={findRouteAndStation}>
-                Tìm kiếm
-              </Button>
-            </form>
-          </div>
-        </div>
-        <div className="map-container" style={{ flex: 7, height: '700px' }}>
-          <MapContainer center={mapPosition} zoom={13} style={{ height: '100%', width: '100%' }}>
-            <TileLayer
-              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/512/{z}/{x}/{y}@2x?access_token=${MAPBOX_API_KEY}`}
-              attribution='&copy; <a href="https://www.mapbox.com/about/maps/">Mapbox</a>'
+    <div className="container mt-3">
+      <h1>Tìm Đường</h1>
+      <div className="row">
+        <div className="col-md-5">
+          <div className="form-group">
+            <label htmlFor="startAddress">Điểm bắt đầu</label>
+            <input
+              type="text"
+              id="startAddress"
+              value={startAddress}
+              onChange={(e) => handleSearchChange(e, 'start')}
+              className="form-control"
             />
+            <ListGroup>
+              {startSuggestions.map((suggestion) => (
+                <ListGroup.Item
+                  key={suggestion.place_id}
+                  onClick={() => handleSuggestionClick(suggestion, 'start')}
+                >
+                  {suggestion.display_name}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
+          <div className="form-group">
+            <label htmlFor="endAddress">Điểm kết thúc</label>
+            <input
+              type="text"
+              id="endAddress"
+              value={endAddress}
+              onChange={(e) => handleSearchChange(e, 'end')}
+              className="form-control"
+            />
+            <ListGroup>
+              {endSuggestions.map((suggestion) => (
+                <ListGroup.Item
+                  key={suggestion.place_id}
+                  onClick={() => handleSuggestionClick(suggestion, 'end')}
+                >
+                  {suggestion.display_name}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </div>
+          <Button onClick={findRoute}>Tìm đường</Button>
+        </div>
+        <div className="col-md-7">
+          <MapContainer center={[10.762622, 106.660172]} zoom={13} style={{ height: '400px' }}>
+            <TileLayer
+              url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token=${MAPBOX_API_KEY}`}
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+
             {markers.start && (
               <Marker position={[markers.start.latitude, markers.start.longitude]} icon={startIcon}>
-                <Popup>Điểm đi: {startAddress}</Popup>
+                <Popup>Điểm bắt đầu: {startAddress}</Popup>
               </Marker>
             )}
+
             {markers.end && (
               <Marker position={[markers.end.latitude, markers.end.longitude]} icon={endIcon}>
-                <Popup>Điểm đến: {endAddress}</Popup>
+                <Popup>Điểm kết thúc: {endAddress}</Popup>
               </Marker>
             )}
-            {listRouteStation.map((station, index) => (
-              <Marker key={index} position={[station.latitude, station.longitude]} icon={stationIcon}>
-                <Popup>{station.name}</Popup>
-              </Marker>
-            ))}
+
+            {/* Nối các trạm trong listRouteStation nếu có dữ liệu */}
+            {listRouteStation.length > 0 ? (
+              <>
+                {listRouteStation.map((routeStation) => (
+                  <Marker key={routeStation.station.id} position={[routeStation.station.latitude, routeStation.station.longitude]} icon={stationIcon}>
+                    <Popup>Trạm: {routeStation.station.name}</Popup>
+                  </Marker>
+                ))}
+
+                {/* Lấy tọa độ của các trạm trong listRouteStation */}
+                <Polyline
+                  positions={listRouteStation.map(routeStation => [routeStation.station.latitude, routeStation.station.longitude])}
+                  color="blue" // Màu của đường nối
+                  weight={5} // Độ dày của đường
+                />
+              </>
+            ) : (
+              // Nếu listRouteStation trống, hiển thị tất cả trạm từ listStation
+              listStation.map((station) => (
+                <Marker key={station.id} position={[station.latitude, station.longitude]} icon={stationIcon}>
+                  <Popup>Trạm: {station.name}</Popup>
+                </Marker>
+              ))
+            )}
           </MapContainer>
+
+
         </div>
       </div>
     </div>
