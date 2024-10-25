@@ -7,7 +7,6 @@ export const endpoints = {
     'route': '/route',
     'station': '/station',
     'login': '/login',
-    'current-user': '/current-user',
     'bustrip': '/bustrip',
     'schedule': '/schedule',
     'favourite': '/favourite',
