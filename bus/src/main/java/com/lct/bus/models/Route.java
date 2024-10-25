@@ -44,6 +44,11 @@ public class Route {
     @OneToMany(mappedBy = "route")
     Set<Favourite> favourites = new HashSet<>();
 
+    @OneToMany(mappedBy = "route")
+    Set<Ticket> tickets = new HashSet<>();
+
+
+
     public int getId() {
         return id;
     }
@@ -131,4 +136,14 @@ public class Route {
     public void setFavourites(Set<Favourite> favourites) {
         this.favourites = favourites;
     }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+
 }

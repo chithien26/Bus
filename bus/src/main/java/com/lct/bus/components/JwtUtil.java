@@ -14,7 +14,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String SECRET_KEY = "segDGHDdgasdgascdrhjfghjfghjerthwrghsheddggasdt";
+    private String SECRET_KEY = "segDGHDdgasdgascdrhjfghjfghjerthwrghsheddggasdt"; // Nên quản lý secret key an toàn
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);

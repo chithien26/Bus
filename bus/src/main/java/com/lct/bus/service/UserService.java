@@ -34,6 +34,9 @@ public class UserService {
     public User getUserById(int id) {
         return userRepository.findById(id).orElse(null);
     }
+    public User getUserByUsername(String username) {
+        return userRepository.getByUsername(username);
+    }
 
     public List<User> getAllUserByUsername(String username) {
         return userRepository.getAllUserByUsername(username);

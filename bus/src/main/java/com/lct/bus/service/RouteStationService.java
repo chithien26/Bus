@@ -71,4 +71,11 @@ public class RouteStationService {
     public List<RouteStation> getByRouteId(int id){
         return routeStationRepository.getByRouteId(id);
     }
+
+    public List<RouteStation> getByRouteAndStationOrder(int routeId, int startStationId, int endStationId){
+        int startIndex = routeStationRepository.getByStationId(routeId, startStationId).getOrder();
+        int endIndex = routeStationRepository.getByStationId(routeId, endStationId).getOrder();
+
+        return routeStationRepository.getByRouteAndStationOrder(routeId, startIndex, endIndex);
+    }
 }

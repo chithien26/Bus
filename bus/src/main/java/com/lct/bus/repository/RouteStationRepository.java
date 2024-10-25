@@ -20,5 +20,10 @@ public interface RouteStationRepository extends JpaRepository<RouteStation, Inte
     @Query("SELECT rs FROM RouteStation rs WHERE rs.route.id = :id")
     List<RouteStation> getByRouteId(int id);
 
+    @Query("SELECT rs FROM RouteStation rs WHERE (rs.route.id = :id) AND (rs.order >= :startIndex AND rs.order <= :endIndex)")
+    List<RouteStation> getByRouteAndStationOrder(int id, int startIndex, int endIndex);
+
+    @Query("SELECT rs FROM RouteStation rs WHERE rs.route.id = :routeId AND rs.station.id = :stationId")
+    RouteStation getByStationId(int routeId, int stationId);
 
 }

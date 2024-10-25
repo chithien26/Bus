@@ -35,6 +35,12 @@ public class Station {
     @OneToMany(mappedBy = "station", fetch = FetchType.LAZY)
     Set<Schedule> schedules = new HashSet<>();
 
+    @OneToMany(mappedBy = "startStation")
+    private Set<Favourite> startFavourites;
+
+    @OneToMany(mappedBy = "endStation")
+    private Set<Favourite> endFavourites;
+
     public int getId() {
         return id;
     }
@@ -105,5 +111,21 @@ public class Station {
 
     public void setSchedules(Set<Schedule> schedules) {
         this.schedules = schedules;
+    }
+
+    public Set<Favourite> getStartFavourites() {
+        return startFavourites;
+    }
+
+    public void setStartFavourites(Set<Favourite> startFavourites) {
+        this.startFavourites = startFavourites;
+    }
+
+    public Set<Favourite> getEndFavourites() {
+        return endFavourites;
+    }
+
+    public void setEndFavourites(Set<Favourite> endFavourites) {
+        this.endFavourites = endFavourites;
     }
 }

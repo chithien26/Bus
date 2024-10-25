@@ -41,7 +41,11 @@ public class User {
     @OneToMany(mappedBy = "user")
     Set<Favourite> favourites = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    Set<Ticket> tickets = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    Set<Order> orders = new HashSet<>();
 
     public int getId() {
         return id;
@@ -137,5 +141,21 @@ public class User {
 
     public void setFavourites(Set<Favourite> favourites) {
         this.favourites = favourites;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
     }
 }

@@ -22,22 +22,20 @@ public class HomeController {
 
     @GetMapping("/current-user")
     public ResponseEntity<User> userDetails() {
-        // Lấy thông tin authentication hiện tại từ SecurityContext
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        // Kiểm tra xem authentication có phải là UserDetails không
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
+            String username = userDetails.getUsername(); // Sửa lại để lấy tên người dùng
 
-            // Tìm user trong cơ sở dữ liệu dựa trên username
             User user = userRepository.findByUsername(username)
                     .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            // Trả về thông tin user
             return ResponseEntity.ok(user);
         }
 
         return ResponseEntity.badRequest().build();
     }
+
+
 }

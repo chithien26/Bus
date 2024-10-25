@@ -32,4 +32,6 @@ public class RouteController {
     public Route getRouteByTwoStation(@RequestParam(value = "startStationId") int startStationId, @RequestParam(value = "endStationId") int endStationId){
         return routeService.getRouteByTwoStation(startStationId, endStationId);
     }
+
+
 }

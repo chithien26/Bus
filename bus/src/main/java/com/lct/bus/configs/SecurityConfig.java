@@ -51,23 +51,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorizeRequests -> {
                     authorizeRequests
-                            // Các yêu cầu dành cho admin
-                            .requestMatchers("/admin/**").hasRole("ADMIN")
-                            // Các yêu cầu còn lại cho user thường
-                            .anyRequest().permitAll();
+                            .requestMatchers("/admin/**").hasRole("ADMIN") // Các yêu cầu dành cho admin
+                            .anyRequest().permitAll(); // Các yêu cầu còn lại cho user thường
                 })
-                // Quản lý session cho admin sử dụng form login, còn user sẽ sử dụng JWT
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED) // Sử dụng session
-                )
-                // Đăng nhập form dành cho admin
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .formLogin(formLogin ->
                         formLogin
                                 .loginPage("/admin/login") // Trang login cho admin
                                 .defaultSuccessUrl("/admin", true) // Redirect sau khi thành công
                                 .permitAll() // Cho phép tất cả truy cập trang login
                 )
-                // Cấu hình logout
                 .logout(logout ->
                         logout
                                 .logoutUrl("/logout")
@@ -76,7 +69,9 @@ public class SecurityConfig {
                                 .clearAuthentication(true)
                                 .deleteCookies("JSESSIONID")
                                 .permitAll()
-                );
+                )
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
 }

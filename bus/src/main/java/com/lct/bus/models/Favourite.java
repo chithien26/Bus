@@ -23,6 +23,12 @@ public class Favourite {
     @ManyToOne
     @JoinColumn(name = "user_id")
     User user;
+    @ManyToOne
+    @JoinColumn(name = "start_station_id")
+    Station startStation;
+    @ManyToOne
+    @JoinColumn(name = "end_station_id")
+    Station endStation;
     LocalDateTime createdDate;
     Boolean active;
 
@@ -64,5 +70,21 @@ public class Favourite {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public Station getStartStation() {
+        return startStation;
+    }
+
+    public void setStartStation(Station startStation) {
+        this.startStation = startStation;
+    }
+
+    public Station getEndStation() {
+        return endStation;
+    }
+
+    public void setEndStation(Station endStation) {
+        this.endStation = endStation;
     }
 }

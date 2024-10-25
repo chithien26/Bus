@@ -1,5 +1,6 @@
 package com.lct.bus.service;
 
+import com.lct.bus.dto.FavouriteDTO;
 import com.lct.bus.dto.RouteDTO;
 import com.lct.bus.models.Favourite;
 import com.lct.bus.models.Route;
@@ -29,11 +30,18 @@ public class FavouriteService {
         favouriteRepository.save(favourite);
     }
 
-    public void createFavourite(Favourite favourite) {
-        Boolean existsFavourite = favouriteRepository.existsById(favourite.getId());
+    public void createFavourite(FavouriteDTO favouriteDTO) {
+        Boolean existsFavourite = favouriteRepository.existsById(favouriteDTO.getId());
         if (existsFavourite) {
             new RuntimeException("Favourite đã tồn tại");
         }
+
+        Favourite favourite = new Favourite();
+        favourite.setId(favouriteDTO.getId());
+        favourite.setUser(favouriteDTO.getUser());
+        favourite.setRoute(favouriteDTO.getRoute());
+        favourite.setStartStation(favouriteDTO.getStartStation());
+        favourite.setEndStation(favouriteDTO.getEndStation());
         favourite.setCreatedDate(LocalDateTime.now());
         favourite.setActive(true);
         favouriteRepository.save(favourite);
@@ -45,6 +53,8 @@ public class FavouriteService {
 
         favouriteUpdate.setRoute(favourite.getRoute());
         favouriteUpdate.setUser(favourite.getUser());
+        favourite.setStartStation(favourite.getStartStation());
+        favourite.setEndStation(favourite.getEndStation());
         favouriteUpdate.setActive(favourite.getActive());
 
         favouriteRepository.save(favouriteUpdate);
